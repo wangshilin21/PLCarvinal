@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/main/main",
+    "pages/local/local",
+    "pages/reserve/reserve",
+    "pages/check/check",
+    "pages/user/user",
+    "pages/init/init",
+    "pages/xman/xman",
+    "pages/vote/vote"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#990066",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "规划经理嘉年华",
+    "backgroundColor": "#EEEEEE",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/main/main",
+        "iconPath": "images/manage1.png",
+        "selectedIconPath": "images/manage.png"
+        
+      },
+
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "images/index1.png",
+        "selectedIconPath": "images/index.png"
+        
+      }
+
+    ],
+    "position": "bottom",
+    "borderStyle": "black",
+    "selectedColor": "#FFFFFF",
+    "backgroundColor":"#990066"
+  },
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
+}

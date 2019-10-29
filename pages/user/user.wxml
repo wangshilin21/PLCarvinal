@@ -1,0 +1,29 @@
+<view class="page">
+	<view class="user">
+    <view>
+      <image class="user-head" src="../../images/meetingRoomLogo.jpg"></image>
+    </view>
+		<view class="user-wrap">
+			<view class="item">
+				<view class="item-title">当前用户 User</view>
+				<view class="item-content">规划部 T-G</view>
+			</view>
+
+			<view class="item">
+				<view class="item-title">账号 Account</view>
+				<view class="item-content">PLmeetingroom</view>
+			</view>
+
+			<view class="item">
+				<view class="item-title">公司 Company</view>
+				<view class="item-content">一汽-大众 Faw-vw</view>
+			</view>
+
+      	<view class="item">
+				<view class="item-title">开发者 Developer</view>
+				<view class="item-content">T-G-PP-5</view>
+			</view>
+
+		</view>
+	</view>
+</view>

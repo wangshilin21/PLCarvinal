@@ -1,0 +1,22 @@
+<!--index.wxml-->
+<view class="page">
+	<view class="page-wrap">
+    <image class="logo" src="../../images/logo.png"></image> 
+		<view class="btn" style="opacity:{{0.8}}">
+			<button bindtap="local">
+				<image src="../../images/local.png"></image>
+        <view>谁是卧底</view>
+        <view>Who is the X-Man</view>
+			</button>
+		</view>
+		<view class="btn" style="opacity:{{0.8}}">
+			<button bindtap="schedule">
+				<image src="../../images/schedule.png"></image>
+        <view>你画我猜</view>
+        <view>Guess</view>        
+			</button>
+		</view>
+    <view class="bottomText">powered by PL-EE
+    </view>
+	</view>
+</view>

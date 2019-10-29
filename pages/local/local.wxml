@@ -1,0 +1,37 @@
+<!--local.wxml-->
+<view class="page">
+	<view class="container">
+		<view class="filter-wrap">
+
+		</view>
+		<view class="filter-content">
+			<view class="fc-list">
+				<view class="fc-item" wx:for="{{boardroomList}}">
+					<view class="fc-row">
+						<view class="fc-title">{{item.roomName}}</view>
+					</view>
+					<view class="fc-row">
+						<image style="margin:0 10rpx;" class="fc-icon" src="../../images/num.png"></image>
+						<view class="fc-text">最多容纳 MaxMember×{{item.maxAttendees}}人</view>
+            </view>
+
+          <view class="fc-row">
+						<image style="margin:0 10rpx;" class="fc-icon" wx:if="{{item.hasVideo}}" src="../../images/video.png"></image>
+						<view class="fc-text" wx:if="{{item.hasVideo}}">视频 Video</view>
+          </view>
+
+          <view class="fc-row">
+						<image style="margin:0 10rpx;" class="fc-icon" wx:if="{{item.hasProjector}}" src="../../images/projection.png"></image>
+						<view class="fc-text" wx:if="{{item.hasProjector}}">投影 Projection</view>
+					</view>
+					<view 
+						class="fc-btn" 
+						data-name="{{item.roomName}}" 
+						bindtap="goReserve">
+            <image class="enterIcon" src="../../images/enterIcon.png"></image>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
