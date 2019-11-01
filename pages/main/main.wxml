@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="page">
+<image class='background-image' src='../../images/background1.png' mode="aspectFill"></image>
 	<view class="page-wrap">
     <image class="logo" src="../../images/logo.png"></image> 
 		<view class="btn" style="opacity:{{0.8}}">

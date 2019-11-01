@@ -1,0 +1,40 @@
+<view class="showWord">
+  <view class="showWord_Title">您获取的词汇是 : {{word1}}</view>
+  <view class="showWord_Title_en">The word for you is : {{word1_en}}</view>
+</view>
+<view class="Title">
+  <image class="infoImage" mode='widthFix' style='width:85%' src='/images/voteInfo.png'></image>
+<view wx:if="{{gameStatus==0}}">
+<view wx:if="{{roundFlag==1}}">
+  <view class="RoundNumber">Round:{{roundNumber}}:You have voted No.{{playerNumber}}</view>
+  </view>
+    <view wx:if="{{roundFlag==0}}">
+  <view class="RoundNumber">Round:{{roundNumber}}</view>
+  </view>
+  </view>
+  <view wx:if="{{gameStatus==1}}">
+<view class="RoundNumber">Game Over!</view>
+  </view>
+
+</view>
+<view class="voteinfo">
+  <view class="vote1">
+    <button bindtap="votePlay1">投票一号玩家 Vote Player No.1</button>
+  </view>
+  <view class="vote2">
+    <button bindtap="votePlay2">投票二号玩家 Vote Player No.2</button>
+  </view>
+  <view class="vote3">
+    <button bindtap="votePlay3">投票三号玩家 Vote Player No.3</button>
+  </view>
+  <view class="vote4">
+    <button bindtap="votePlay4">投票四号玩家 Vote Player No.4</button>
+  </view>
+  <view class="vote5">
+    <button bindtap="votePlay5">投票五号玩家 Vote Player No.5</button>
+  </view>
+</view>
+
+<view class="nextRound">
+  <button bindtap="nextRound">进入下一轮Next Round</button>
+</view>

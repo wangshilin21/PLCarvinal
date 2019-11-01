@@ -150,7 +150,7 @@ button.xman-button {
 .getCard_info {
   display: flex;
   justify-content: center;
-  padding-top: 880rpx;
+  padding-top: 920rpx;
   font: 200;
 }
 
@@ -221,7 +221,7 @@ page {
 }
 .vote {
   display: block;
-  padding-top: 100rpx;
+  padding-top: 30rpx;
 }
 
 .vote button {
@@ -231,7 +231,7 @@ page {
   line-height: 80rpx;
   border-radius: 80rpx;
   /*color: #fff;*/
-  color: #1e5adb;
+  color: #1e5adb; 
   background: #fff;
   border: solid 1rpx #2947f1;
 }

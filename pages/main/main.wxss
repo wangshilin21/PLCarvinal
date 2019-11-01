@@ -4,6 +4,7 @@
 	height: 100%;
   width: 100%;
   position: relative;
+
 }
 .page-wrap {
 	position: relative;
@@ -27,6 +28,7 @@
     height: 200rpx;
     display: inline-block;
     margin-bottom: 0rpx;
+    padding-top: 20rpx;
 }
 .background-image{
    height : 100%;

@@ -9,12 +9,17 @@ Page({
     tips: '设置游戏',
     xman: null,
     gameStatus: 0,
-    playerNumber: 8,
     blankNumber: 0,
     xmanNumber: 1,
     cards: [],
     currentPlayer: 0,
-    result: '游戏进行中'
+    result: '游戏进行中',
+    word1: '变速箱',
+    word1_en:'Gearbox',
+    roundNumber:1,
+    playerNumber:0,
+    roundFlag:0,
+    voteButtonLock:0
   },
   generatorArray: function (num) {
     let arr = []
@@ -121,6 +126,73 @@ Page({
       cards: [],
       xman: null
     })
+  },
+  votePlay1:function(){
+    if(this.data.voteButtonLock==0){
+      this.setData({
+        playerNumber: 1,
+        roundFlag: 1,
+        voteButtonLock: 1
+      })
+      this.onLoad();
+    }
+  },
+  votePlay2: function () {
+    if (this.data.voteButtonLock == 0) {
+    this.setData({
+      playerNumber: 2,
+      roundFlag:1,
+      voteButtonLock: 1
+    })
+    this.onLoad();
+    }
+  },
+  votePlay3: function () {
+    if (this.data.voteButtonLock == 0) {
+    this.setData({
+      playerNumber: 3,
+      roundFlag:1,
+      voteButtonLock: 1
+    })
+    this.onLoad();
+    }
+  },
+  votePlay4: function () {
+    if (this.data.voteButtonLock == 0) {
+    this.setData({
+      playerNumber: 4,
+      roundFlag:1,
+      voteButtonLock: 1
+    })
+    this.onLoad();
+    }
+  },
+  votePlay5: function () {
+    if (this.data.voteButtonLock == 0) {
+    this.setData({
+      playerNumber: 5,
+      roundFlag:1,
+      voteButtonLock: 1
+    })
+    this.onLoad();
+    }
+  },
+  nextRound:function(){
+    this.setData({
+      roundNumber: this.data.roundNumber + 1,
+       roundFlag: 0,
+       voteButtonLock:0
+    })
+    if (this.data.roundNumber > 3) {
+      this.setData({
+        gameStatus: 1
+      })
+    }
+    this.onLoad();
+    console.log(this.data.roundNumber);
+   /* wx.navigateTo({
+      url: "../vote/vote"
+    })*/
   },
   /**
    * 生命周期函数--监听页面加载

@@ -16,12 +16,13 @@ Page({
   },
   enterGame: function () {
    console.log("Player name is "+this.data.name_inputValue);
- /*if(this.data.name_inputValue.length==0){
+     if(this.data.name_inputValue===' '||this.data.name_inputValue.length==0){
      wx.showModal({
        title: '玩家姓名缺失，请输入姓名',
        content: 'Please input the name of player',
      });
-   }*/
+     return;
+   }
    // infoMess: '温馨提示：用户名和密码不能为空！',
     wx.navigateTo({
       url: '../init/init'
