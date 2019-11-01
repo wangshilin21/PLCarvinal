@@ -33,7 +33,7 @@ Page({
    */
   onLoad: function (options) {
     wx.setNavigationBarTitle({
-      title: '谁是卧底Who is the X-Man'
+      title: '规划经理嘉年华'
     })
   },
 

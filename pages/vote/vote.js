@@ -21,6 +21,8 @@ Page({
     roundFlag:0,
     voteButtonLock:0
   },
+
+  
   generatorArray: function (num) {
     let arr = []
     while (num-- > 0) {
@@ -128,53 +130,160 @@ Page({
     })
   },
   votePlay1:function(){
-    if(this.data.voteButtonLock==0){
-      this.setData({
-        playerNumber: 1,
-        roundFlag: 1,
-        voteButtonLock: 1
-      })
-      this.onLoad();
+    var myThis=this;
+    if (this.data.voteButtonLock == 0) {
+    wx.showModal({
+      title: '确定投票给XX吗？',
+      content: 'Confim to vote XX？',
+      showCancel: true,//是否显示取消按钮
+      cancelText: "No",//默认是“取消”
+      cancelColor: 'skyblue',//取消文字的颜色
+      confirmText: "Yes",//默认是“确定”
+      confirmColor: 'skyblue',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+          //点击取消,默认隐藏弹框
+        } else {
+          //点击确定
+        console.log("确认");
+            myThis.setData({
+              playerNumber: 1,
+              roundFlag: 1,
+              voteButtonLock: 1
+            })
+            console.log(myThis.data.playerNumber);
+            myThis.onLoad();
+        }
+      },
+      fail: function (res) { },//接口调用失败的回调函数
+      complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+    })
     }
   },
+
   votePlay2: function () {
+    var myThis = this;
     if (this.data.voteButtonLock == 0) {
-    this.setData({
-      playerNumber: 2,
-      roundFlag:1,
-      voteButtonLock: 1
-    })
-    this.onLoad();
+      wx.showModal({
+        title: '确定投票给XX吗？',
+        content: 'Confim to vote XX？',
+        showCancel: true,//是否显示取消按钮
+        cancelText: "No",//默认是“取消”
+        cancelColor: 'skyblue',//取消文字的颜色
+        confirmText: "Yes",//默认是“确定”
+        confirmColor: 'skyblue',//确定文字的颜色
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            console.log("确认");
+            myThis.setData({
+              playerNumber: 2,
+              roundFlag: 1,
+              voteButtonLock: 1
+            })
+            console.log(myThis.data.playerNumber);
+            myThis.onLoad();
+          }
+        },
+        fail: function (res) { },//接口调用失败的回调函数
+        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+      })
     }
   },
+  
   votePlay3: function () {
+    var myThis = this;
     if (this.data.voteButtonLock == 0) {
-    this.setData({
-      playerNumber: 3,
-      roundFlag:1,
-      voteButtonLock: 1
-    })
-    this.onLoad();
+      wx.showModal({
+        title: '确定投票给XX吗？',
+        content: 'Confim to vote XX？',
+        showCancel: true,//是否显示取消按钮
+        cancelText: "No",//默认是“取消”
+        cancelColor: 'skyblue',//取消文字的颜色
+        confirmText: "Yes",//默认是“确定”
+        confirmColor: 'skyblue',//确定文字的颜色
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            console.log("确认");
+            myThis.setData({
+              playerNumber: 3,
+              roundFlag: 1,
+              voteButtonLock: 1
+            })
+            console.log(myThis.data.playerNumber);
+            myThis.onLoad();
+          }
+        },
+        fail: function (res) { },//接口调用失败的回调函数
+        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+      })
     }
   },
   votePlay4: function () {
+    var myThis = this;
     if (this.data.voteButtonLock == 0) {
-    this.setData({
-      playerNumber: 4,
-      roundFlag:1,
-      voteButtonLock: 1
-    })
-    this.onLoad();
+      wx.showModal({
+        title: '确定投票给XX吗？',
+        content: 'Confim to vote XX？',
+        showCancel: true,//是否显示取消按钮
+        cancelText: "No",//默认是“取消”
+        cancelColor: 'skyblue',//取消文字的颜色
+        confirmText: "Yes",//默认是“确定”
+        confirmColor: 'skyblue',//确定文字的颜色
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            console.log("确认");
+            myThis.setData({
+              playerNumber: 4,
+              roundFlag: 1,
+              voteButtonLock: 1
+            })
+            console.log(myThis.data.playerNumber);
+            myThis.onLoad();
+          }
+        },
+        fail: function (res) { },//接口调用失败的回调函数
+        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+      })
     }
   },
   votePlay5: function () {
+    var myThis = this;
     if (this.data.voteButtonLock == 0) {
-    this.setData({
-      playerNumber: 5,
-      roundFlag:1,
-      voteButtonLock: 1
-    })
-    this.onLoad();
+      wx.showModal({
+        title: '确定投票给XX吗？',
+        content: 'Confim to vote XX？',
+        showCancel: true,//是否显示取消按钮
+        cancelText: "No",//默认是“取消”
+        cancelColor: 'skyblue',//取消文字的颜色
+        confirmText: "Yes",//默认是“确定”
+        confirmColor: 'skyblue',//确定文字的颜色
+        success: function (res) {
+          if (res.cancel) {
+            //点击取消,默认隐藏弹框
+          } else {
+            //点击确定
+            console.log("确认");
+            myThis.setData({
+              playerNumber: 5,
+              roundFlag: 1,
+              voteButtonLock: 1
+            })
+            console.log(myThis.data.playerNumber);
+            myThis.onLoad();
+          }
+        },
+        fail: function (res) { },//接口调用失败的回调函数
+        complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+      })
     }
   },
   nextRound:function(){
@@ -185,7 +294,8 @@ Page({
     })
     if (this.data.roundNumber > 3) {
       this.setData({
-        gameStatus: 1
+        gameStatus: 1,
+        voteButtonLock:1
       })
     }
     this.onLoad();
