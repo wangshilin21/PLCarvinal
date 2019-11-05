@@ -17,20 +17,21 @@ Page({
     result: '游戏进行中',
     word1: '变速箱',
     word1_en:'Gearbox',
-    roundNumber:1,
+    roundNumber:1,//投票轮数
     playerInfo:'',
-    roundFlag:0,
-    player1:'Player1_Name',
+    roundFlag:0,//标志位，区分只显示Round1，还是显示Round1： You voted xx
+    player1:'Player1_Name',//玩家姓名来源于Server，与前端显示一致
     player2:'Player2_Name',
     player3:'Player3_Name',
     player4:'Player4_Name',
     player5:'Player5_Name',
-    player1Alive: 'true',
+    player1Alive: 'true',//各个玩家生命状态。只有生命状态为TRUE的时候，才会在投票按钮显示该玩家。
     player2Alive: 'true',
     player3Alive:'true',
     player4Alive: 'true',
     player5Alive: 'true',
-    voteButtonLock:0
+    voteButtonLock:0,//初始状态下，投票按钮无锁。0代表无锁，1代表上锁。作用：投票一次后，锁定投票按钮无法再投。进入下一轮后解锁。
+    nextRoundLock:1//初始状态下，进入下一轮按钮上锁。0代表无锁，1代表上锁。作用：只有投票后才允许进入下一轮。
   },
 
   
@@ -156,7 +157,8 @@ console.log("exit");
             myThis.setData({
               playerInfo: myThis.data.player1,
               roundFlag: 1,
-              voteButtonLock: 1
+              voteButtonLock: 1,
+              nextRoundLock:0
             })
             console.log(myThis.data.playerNumber);
             myThis.onLoad();
@@ -188,6 +190,7 @@ console.log("exit");
             myThis.setData({
               playerInfo: myThis.data.player2,
               roundFlag: 1,
+              nextRoundLock: 0,
               voteButtonLock: 1
             })
             console.log(myThis.data.playerNumber);
@@ -220,6 +223,7 @@ console.log("exit");
             myThis.setData({
               playerInfo: myThis.data.player3,
               roundFlag: 1,
+              nextRoundLock: 0,
               voteButtonLock: 1
             })
             console.log(myThis.data.playerNumber);
@@ -251,6 +255,7 @@ console.log("exit");
             myThis.setData({
               playerInfo: myThis.data.player4,
               roundFlag: 1,
+              nextRoundLock: 0,
               voteButtonLock: 1
             })
             console.log(myThis.data.playerNumber);
@@ -282,6 +287,7 @@ console.log("exit");
             myThis.setData({
               playerInfo: myThis.data.player5,
               roundFlag: 1,
+              nextRoundLock: 0,
               voteButtonLock: 1
             })
             console.log(myThis.data.playerNumber);
@@ -294,19 +300,24 @@ console.log("exit");
     }
   },
   nextRound:function(){
-    this.setData({
-      roundNumber: this.data.roundNumber + 1,
-       roundFlag: 0,
-       voteButtonLock:0
-    })
-    if (this.data.roundNumber > 3) {
+    if(this.data.nextRoundLock==0){
       this.setData({
-        gameStatus: 1,
-        voteButtonLock:1
+        roundNumber: this.data.roundNumber + 1,
+        roundFlag: 0,
+        voteButtonLock: 0
       })
+      if (this.data.roundNumber > 3) {
+        this.setData({
+          gameStatus: 1,
+          voteButtonLock: 1
+        })
+      }
+      this.onLoad();
+      console.log(this.data.roundNumber);
     }
-    this.onLoad();
-    console.log(this.data.roundNumber);
+   this.setData({
+     nextRoundLock:1
+   })
    /* wx.navigateTo({
       url: "../vote/vote"
     })*/

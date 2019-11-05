@@ -70,6 +70,9 @@ App({
     meetingrooms: [],//会议室列表
     checkBrList:[],//选中会议室
     contactsList: [],
-    boardroomList: []
+    boardroomList: [],
+    wordIndexCN:[],
+    wordIndexEN:[],
+    playerName:[]
   }
 })
