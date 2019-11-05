@@ -1,5 +1,6 @@
 // pages/init/init.js
 const Xman = require('../../service/xman.js')
+const app=getApp()
 Page({
 
   /**
@@ -17,8 +18,18 @@ Page({
     word1: '变速箱',
     word1_en:'Gearbox',
     roundNumber:1,
-    playerNumber:0,
+    playerInfo:'',
     roundFlag:0,
+    player1:'Player1_Name',
+    player2:'Player2_Name',
+    player3:'Player3_Name',
+    player4:'Player4_Name',
+    player5:'Player5_Name',
+    player1Alive: 'true',
+    player2Alive: 'true',
+    player3Alive:'true',
+    player4Alive: 'true',
+    player5Alive: 'true',
     voteButtonLock:0
   },
 
@@ -118,23 +129,19 @@ Page({
       cards: idArray
     })
   },
-  restartGame: function () {
-    this.data.xman.reset()
-    // this.data.xman = null
-    this.setData({
-      gameStatus: 0,
-      currentPlayer: 0,
-      result: "游戏未开始",
-      cards: [],
-      xman: null
+  backToMenu: function () {
+console.log("exit");
+    wx.switchTab({
+      url: "../main/main"
     })
+    console.log("exit over");
   },
   votePlay1:function(){
     var myThis=this;
     if (this.data.voteButtonLock == 0) {
     wx.showModal({
-      title: '确定投票给XX吗？',
-      content: 'Confim to vote XX？',
+      title: '确定投票给'+this.data.player1+'吗？',
+      content: 'Confim to vote  '+this.data.player1+'  ?',
       showCancel: true,//是否显示取消按钮
       cancelText: "No",//默认是“取消”
       cancelColor: 'skyblue',//取消文字的颜色
@@ -147,7 +154,7 @@ Page({
           //点击确定
         console.log("确认");
             myThis.setData({
-              playerNumber: 1,
+              playerInfo: myThis.data.player1,
               roundFlag: 1,
               voteButtonLock: 1
             })
@@ -165,8 +172,8 @@ Page({
     var myThis = this;
     if (this.data.voteButtonLock == 0) {
       wx.showModal({
-        title: '确定投票给XX吗？',
-        content: 'Confim to vote XX？',
+        title: '确定投票给' + this.data.player2 + '吗？',
+        content: 'Confim to vote  '+this.data.player2+'  ?',
         showCancel: true,//是否显示取消按钮
         cancelText: "No",//默认是“取消”
         cancelColor: 'skyblue',//取消文字的颜色
@@ -179,7 +186,7 @@ Page({
             //点击确定
             console.log("确认");
             myThis.setData({
-              playerNumber: 2,
+              playerInfo: myThis.data.player2,
               roundFlag: 1,
               voteButtonLock: 1
             })
@@ -197,8 +204,8 @@ Page({
     var myThis = this;
     if (this.data.voteButtonLock == 0) {
       wx.showModal({
-        title: '确定投票给XX吗？',
-        content: 'Confim to vote XX？',
+        title: '确定投票给' + this.data.player3 + '吗？',
+        content: 'Confim to vote  '+this.data.player3+'  ？',
         showCancel: true,//是否显示取消按钮
         cancelText: "No",//默认是“取消”
         cancelColor: 'skyblue',//取消文字的颜色
@@ -211,7 +218,7 @@ Page({
             //点击确定
             console.log("确认");
             myThis.setData({
-              playerNumber: 3,
+              playerInfo: myThis.data.player3,
               roundFlag: 1,
               voteButtonLock: 1
             })
@@ -228,8 +235,8 @@ Page({
     var myThis = this;
     if (this.data.voteButtonLock == 0) {
       wx.showModal({
-        title: '确定投票给XX吗？',
-        content: 'Confim to vote XX？',
+        title: '确定投票给' + this.data.player4 + '吗？',
+        content: 'Confim to vote  '+this.data.player4+'  ？',
         showCancel: true,//是否显示取消按钮
         cancelText: "No",//默认是“取消”
         cancelColor: 'skyblue',//取消文字的颜色
@@ -242,7 +249,7 @@ Page({
             //点击确定
             console.log("确认");
             myThis.setData({
-              playerNumber: 4,
+              playerInfo: myThis.data.player4,
               roundFlag: 1,
               voteButtonLock: 1
             })
@@ -259,8 +266,8 @@ Page({
     var myThis = this;
     if (this.data.voteButtonLock == 0) {
       wx.showModal({
-        title: '确定投票给XX吗？',
-        content: 'Confim to vote XX？',
+        title: '确定投票给' + this.data.player5 + '吗？',
+        content: 'Confim to vote  '+this.data.player5+'  ？',
         showCancel: true,//是否显示取消按钮
         cancelText: "No",//默认是“取消”
         cancelColor: 'skyblue',//取消文字的颜色
@@ -273,7 +280,7 @@ Page({
             //点击确定
             console.log("确认");
             myThis.setData({
-              playerNumber: 5,
+              playerInfo: myThis.data.player5,
               roundFlag: 1,
               voteButtonLock: 1
             })

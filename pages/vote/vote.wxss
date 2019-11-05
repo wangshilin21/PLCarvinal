@@ -135,13 +135,25 @@ font-weight: 700;
   /*color: #fff;*/
   border: solid 1rpx #2947f1;
 }
-.nextRound{
-   display:flex;
+
+.ButtonNext{
+  display:flex;
    justify-content: center;
   padding-top: 50rpx;
 
 }
-.nextRound button{
+.ButtonNext button{
+  background-color:#1C1C90 ;
+  color:white;
+  font-weight: 700;
+  width:90%;
+}
+.ButtonExit{
+  display:flex;
+   justify-content: center;
+  padding-top: 50rpx;
+}
+.ButtonExit button{
   background-color:#1C1C90 ;
   color:white;
   font-weight: 700;
