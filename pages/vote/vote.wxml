@@ -4,44 +4,83 @@
 </view>
 <view class="Title">
   <image class="infoImage" mode='widthFix' style='width:85%' src='/images/voteInfo.png'></image>
-<view wx:if="{{gameStatus==0}}">
-<view wx:if="{{roundFlag==1}}">
-  <view class="RoundNumber">Round:{{roundNumber}}:You voted {{playerInfo}}</view>
-  </view>
+  <view wx:if="{{gameStatus==0}}">
+    <view wx:if="{{roundFlag==1}}">
+      <view class="RoundNumber">Round:{{roundNumber}}:You voted {{playerInfo}}</view>
+    </view>
     <view wx:if="{{roundFlag==0}}">
-  <view class="RoundNumber">Round:{{roundNumber}}</view>
-  </view>
+      <view class="RoundNumber">Round:{{roundNumber}}</view>
+    </view>
   </view>
   <view wx:if="{{gameStatus==1}}">
-<view class="RoundNumber">Game Over!</view>
+    <view class="RoundNumber">Game Over!</view>
   </view>
 
 </view>
+
 <view class="voteinfo">
-  <view class="vote1">
-    <button bindtap="votePlay1">投票Vote: {{player1}}</button>
+  <view wx:if="{{buttonColorFlag1==0}}">
+    <view class="vote1">
+      <button bindtap="votePlay1">投票Vote: {{player1}}</button>
+    </view>
   </view>
-  <view class="vote2">
-    <button bindtap="votePlay2">投票Vote: {{player2}}</button>
+  <view wx:if="{{buttonColorFlag1==1}}">
+    <view class="vote1_gray">
+      <button bindtap="votePlay1">投票Vote: {{player1}}</button>
+    </view>
   </view>
-  <view wx:if="{{player3Alive=='true'}}">
-  <view class="vote3">
-    <button bindtap="votePlay3">投票Vote: {{player3}}</button>
+  
+    <view wx:if="{{buttonColorFlag2==0}}">
+    <view class="vote2">
+      <button bindtap="votePlay2">投票Vote: {{player2}}</button>
+    </view>
   </view>
+  <view wx:if="{{buttonColorFlag2==1}}">
+    <view class="vote2_gray">
+      <button bindtap="votePlay2">投票Vote: {{player2}}</button>
+    </view>
   </view>
-  <view class="vote4">
-    <button bindtap="votePlay4">投票Vote: {{player4}}</button>
+  
+    <view wx:if="{{buttonColorFlag3==0}}">
+    <view class="vote3">
+      <button bindtap="votePlay3">投票Vote: {{player3}}</button>
+    </view>
   </view>
-  <view class="vote5">
-    <button bindtap="votePlay5">投票Vote: {{player5}}</button>
+  <view wx:if="{{buttonColorFlag3==1}}">
+    <view class="vote3_gray">
+      <button bindtap="votePlay3">投票Vote: {{player3}}</button>
+    </view>
   </view>
+  
+    <view wx:if="{{buttonColorFlag4==0}}">
+    <view class="vote4">
+      <button bindtap="votePlay4">投票Vote: {{player4}}</button>
+    </view>
+  </view>
+  <view wx:if="{{buttonColorFlag4==1}}">
+    <view class="vote4_gray">
+      <button bindtap="votePlay4">投票Vote: {{player4}}</button>
+    </view>
+  </view>
+  
+    <view wx:if="{{buttonColorFlag5==0}}">
+    <view class="vote5">
+      <button bindtap="votePlay5">投票Vote: {{player5}}</button>
+    </view>
+  </view>
+  <view wx:if="{{buttonColorFlag5==1}}">
+    <view class="vote5_gray">
+      <button bindtap="votePlay5">投票Vote: {{player5}}</button>
+    </view>
+  </view>
+  
 </view>
 
 <view class="nextRound">
- <view class="ButtonNext" wx:if="{{gameStatus==0}}">
-  <button  bindtap="nextRound">进入下一轮Next Round</button>
+  <view class="ButtonNext" wx:if="{{gameStatus==0}}">
+    <button bindtap="nextRound">进入下一轮Next Round</button>
   </view>
   <view class="ButtonExit" wx:if="{{gameStatus==1}}">
-  <button  bindtap="backToMenu">退出Exit</button>
+    <button bindtap="backToMenu">退出Exit</button>
   </view>
 </view>

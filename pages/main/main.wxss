@@ -38,7 +38,6 @@
     top: 0px;
 }
 .bottomText{
-  padding-top: 90px;
   font-size: 30rpx;
   color:rgb(180, 37, 37);
 }

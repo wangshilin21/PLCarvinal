@@ -2,28 +2,34 @@ var app = getApp();
 var util = require('../../utils/util.js');
 Page({
   data: {
-    title: "",//会议主题
-    date: "",//预约日期
-    week: "",//预约星期几
+    title: "", //会议主题
+    date: "", //预约日期
+    week: "", //预约星期几
     secret: "",
-    sdate: "",//开始日期
+    sdate: "", //开始日期
     //edate: "",//结束日期
-    stime: "",//开始时间
-    etime: "",//结束时间
-    bookName: "",//联系人
+    stime: "", //开始时间
+    etime: "", //结束时间
+    bookName: "", //联系人
     bookPhone: "",
     roomName: "",
-    startTime: [['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'], ['00', '15', '30', '45']],
-    endTime: [['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'], ['00', '15', '30', '45']],
+    startTime: [
+      ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+      ['00', '15', '30', '45']
+    ],
+    endTime: [
+      ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+      ['00', '15', '30', '45']
+    ],
     startindex: [0, 0],
     endindex: [0, 0],
-    rcontacts: [],//联系人组
-    rboardroom: [],//会议室组
+    rcontacts: [], //联系人组
+    rboardroom: [], //会议室组
     rcontactsId: [],
     source: '',
   },
-  onLoad: function (options) {
-		/*if (options.id !== undefined && options.id === '1') {
+  onLoad: function(options) {
+    /*if (options.id !== undefined && options.id === '1') {
 			console.log(options);
 			let rboardroom = [];
 			rboardroom.push({
@@ -112,7 +118,7 @@ Page({
       });
     }
   },
-  bindStartTimeChange: function (e) {
+  bindStartTimeChange: function(e) {
     console.log(e.detail)
     this.setData({
       startindex: e.detail.value
@@ -121,14 +127,14 @@ Page({
     console.log(e.detail)
 
   },
-  bindEndTimeChange: function (e) {
+  bindEndTimeChange: function(e) {
     console.log(e.detail)
     this.setData({
       endindex: e.detail.value,
     })
     this.data.etime = this.data.endTime[0][this.data.endindex[0]] + ':' + this.data.endTime[1][this.data.endindex[1]];
   },
-  bindColumnChange: function (e) {
+  bindColumnChange: function(e) {
     console.log(e.detail)
   },
   onUnload() {
@@ -146,7 +152,7 @@ Page({
 
   },
   onReserve() {
-		/*var attendees = [];
+    /*var attendees = [];
     if (this.data.source === 'remote') {
 			attendees = this.data.rcontactsId;
 		} else {
@@ -221,7 +227,7 @@ Page({
     wx.showModal({
       title: '确认预约会议?',
       content: 'Confirm to Reserve the MeetingRoom?',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           //wx.clearStorageSync();
           wx.request({
@@ -243,7 +249,7 @@ Page({
             header: {
               'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
             },
-            success: function (res) {
+            success: function(res) {
               console.log("返回成功的数据：", res.data);
               console.log("返回成功的数据：" + JSON.stringify(res.data));
               console.log(res.data[0].requestResult);
@@ -255,7 +261,7 @@ Page({
                   duration: 2000,
                   mask: true
                 })
-                setTimeout(function () {
+                setTimeout(function() {
                   wx.reLaunch({
                     url: '../main/main',
                   })
@@ -306,9 +312,9 @@ Page({
                   })
                 }
 
-              }//此处应判断得到的result是否为true，如果为true则显示预约成功并跳转；否则显示预约失败；括号中的true暂时设置成常为1的成功状态
+              } //此处应判断得到的result是否为true，如果为true则显示预约成功并跳转；否则显示预约失败；括号中的true暂时设置成常为1的成功状态
             },
-            complete: function (arr) { }
+            complete: function(arr) {}
           })
 
         } else if (res.cancel) {
@@ -323,17 +329,17 @@ Page({
       week: util.getWeeks((e.detail.value))
     });
   },
-	/*onChangeSdate (e) {
-		this.setData({
-			sdate: e.detail.value,
-			edate: e.detail.value
-		});
-	},
-	onChangeEdate (e) {
-		this.setData({
-			edate: e.detail.value
-		});
-	},*/
+  /*onChangeSdate (e) {
+  	this.setData({
+  		sdate: e.detail.value,
+  		edate: e.detail.value
+  	});
+  },
+  onChangeEdate (e) {
+  	this.setData({
+  		edate: e.detail.value
+  	});
+  },*/
   onChangeStime(e) {
     this.setData({
       stime: e.detail.value
@@ -367,11 +373,11 @@ Page({
     wx.showModal({
       title: '提示',
       content: '是否移除该参会者',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
-          var checkMan = {},//用来存储当前联系人
-            arr = app.globalData.contactsList,//临时存储人员列表
-            _checkList = _this.data.rcontacts;//临时存储选中的人数组
+          var checkMan = {}, //用来存储当前联系人
+            arr = app.globalData.contactsList, //临时存储人员列表
+            _checkList = _this.data.rcontacts; //临时存储选中的人数组
 
           checkMan.name = e.currentTarget.dataset.name;
           checkMan.email = e.currentTarget.dataset.email;
@@ -384,7 +390,7 @@ Page({
               //在contactsList对应项去掉选中状态
               for (var j = 0; j < arr.length; j++) {
                 for (var k = 0; k < arr[k].contactsInfo.length; k++) {
-                  if (typeof (arr[j].contactsInfo[k]) != "undefined") {
+                  if (typeof(arr[j].contactsInfo[k]) != "undefined") {
                     if (arr[j].contactsInfo[k].name === checkMan.name && arr[j].contactsInfo[k].email === checkMan.email) {
                       arr[j].contactsInfo[k].check = false;
                       app.updateContactsList(arr);
@@ -412,14 +418,14 @@ Page({
     wx.showModal({
       title: '重新选择会议室？',
       content: 'Choose Another MeetingRoom?',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           wx.navigateTo({
             url: '../local/local',
           });
-          var checkRoom = {},//用来存储当前会议室
-            arr = app.globalData.boardroomList,//临时存储会议室列表
-            _checkList = _this.data.rboardroom;//临时存储选中的会议室数组
+          var checkRoom = {}, //用来存储当前会议室
+            arr = app.globalData.boardroomList, //临时存储会议室列表
+            _checkList = _this.data.rboardroom; //临时存储选中的会议室数组
 
           checkRoom.name = e.currentTarget.dataset.name;
           checkRoom.id = e.currentTarget.dataset.id;
@@ -432,7 +438,7 @@ Page({
               //在boardroomList对应项去掉选中状态
               for (var j = 0; j < arr.length; j++) {
                 for (var k = 0; k < arr[j].boardroomInfo.length; k++) {
-                  if (typeof (arr[j].boardroomInfo[k]) != "undefined") {
+                  if (typeof(arr[j].boardroomInfo[k]) != "undefined") {
                     if (arr[j].boardroomInfo[k].name === checkRoom.name && arr[j].boardroomInfo[k].id == checkRoom.id) {
                       arr[j].boardroomInfo[k].check = false;
                       app.updateBoardroomList(arr);
@@ -450,7 +456,8 @@ Page({
         } else if (res.cancel) {
 
         }
-      }, fail: function (res) {
+      },
+      fail: function(res) {
 
       }
     })
