@@ -6,11 +6,12 @@
     "pages/check/check",
     "pages/user/user",
     "pages/init/init",
-    "pages/xman/xman",
-    "pages/vote/vote"
+    "pages/xmanGame/xmanGame",
+    "pages/vote/vote",
+    "pages/playerList/playerList"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#990066",
+    "navigationBarBackgroundColor": "#2626C2",
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "规划经理嘉年华",
     "backgroundColor": "#EEEEEE",
@@ -22,21 +23,17 @@
         "pagePath": "pages/main/main",
         "iconPath": "images/manage1.png",
         "selectedIconPath": "images/manage.png"
-        
       },
-
       {
         "pagePath": "pages/user/user",
         "iconPath": "images/index1.png",
         "selectedIconPath": "images/index.png"
-        
       }
-
     ],
     "position": "bottom",
     "borderStyle": "black",
     "selectedColor": "#FFFFFF",
-    "backgroundColor":"#990066"
+    "backgroundColor": "#2626C2"
   },
   "debug": true,
   "sitemapLocation": "sitemap.json"

@@ -15,16 +15,16 @@ Page({
     cards: [],
     currentPlayer: 0,
     result: '游戏进行中',
-    word1: '变速箱',
-    word1_en: 'Gearbox',
     roundNumber: 1, //投票轮数
     playerInfo: '',
     roundFlag: 0, //标志位，区分只显示Round1，还是显示Round1： You voted xx
-    player1: 'Player1_Name', //玩家姓名来源于Server，与前端显示一致
-    player2: 'Player2_Name',
-    player3: 'Player3_Name',
-    player4: 'Player4_Name',
-    player5: 'Player5_Name',
+    player1: '玩家姓名一', //玩家姓名来源于Server，与前端显示一致
+    player2: '玩家姓名二',
+    player3: '玩家姓名三',
+    player4: '玩家姓名四',
+    player5: '玩家姓名五',
+    wordShown:"",//在投票页显示所选词汇
+    wordShown_en:"",//显示所选词汇的英文
     buttonColorFlag1: 0, //投票按钮颜色标志：0代表白色，1代表点击后变灰
     buttonColorFlag2: 0,
     buttonColorFlag3: 0,
@@ -330,6 +330,7 @@ Page({
           buttonColorFlag3: 0,
           buttonColorFlag4: 0,
           buttonColorFlag5: 0,
+
         })
       }
       this.onLoad();
@@ -346,7 +347,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    var that=this;
+    that.setData({
+    player1:app.globalData.playerOther1,
+    player2:app.globalData.playerOther2,
+    player3:app.globalData.playerOther3,
+    player4:app.globalData.playerOther4,
+    wordShown:app.globalData.cardMe
+    });
   },
 
   /**

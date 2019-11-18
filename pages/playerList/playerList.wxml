@@ -1,0 +1,12 @@
+<view class="xman-image-size2">
+	<image src="../../images/xman.png" class='xman-image-in2'></image>
+</view>
+<view class="playerInfoContainer">
+  
+
+</view>
+<view>
+  <div class="startToGetWord">
+    <button bindtap="startToGetWord">进入游戏Enter Game</button>
+  </div>
+</view>

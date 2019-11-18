@@ -1,0 +1,33 @@
+/* pages/welcome/welcome.wxss */
+
+.app-info {
+  width: 100%;
+  text-align: center;
+  padding-top: 50px;
+  display: block;
+}
+.xman-image-size2{
+display:flex;
+justify-content: center;
+padding-top: 30px;
+}
+.xman-image-in2{
+width:500rpx;
+height:500rpx;
+}
+.startToGetWord{
+  display: block;
+  padding-top: 100rpx;
+}
+
+.startToGetWord button {
+  width: 300rpx;
+  height: 80rpx;
+  font-size: 36rpx;
+  line-height: 80rpx;
+  border-radius: 80rpx;
+  /*color: #fff;*/
+  color: #1e5adb;
+  background: #fff;
+  border: solid 1rpx #2947f1;
+}

@@ -57,12 +57,12 @@ function Xman() {
       throw new Error('Init Game Error, playersNumber must be more than the sum of xman and blank ..')
     }
     // console.log('init over')
-    console.log(`====== 初始化完毕: ======`)
-    console.log(`玩家数量: ${playersNumber}`)
-    console.log(`卧底 : ${xmanNumber}`)
-    console.log(`白板: ${blankNumber}`)
-    console.log(`平民: ${plainNumber}`)
-    console.log(`============================`)
+    //console.log(`====== 初始化完毕: ======`)
+    //console.log(`玩家数量: ${playersNumber}`)
+    //console.log(`卧底 : ${xmanNumber}`)
+    //console.log(`白板: ${blankNumber}`)
+    //console.log(`平民: ${plainNumber}`)
+    //console.log(`============================`)
   }
 
 	/**

@@ -1,6 +1,6 @@
 <view class="showWord">
-  <view class="showWord_Title">您获取的词汇是 : {{word1}}</view>
-  <view class="showWord_Title_en">The word for you is : {{word1_en}}</view>
+  <view class="showWord_Title">您获取的词汇是 : {{wordShown}}</view>
+  <view class="showWord_Title_en">The word for you is : {{wordShown_en}}</view>
 </view>
 <view class="Title">
   <image class="infoImage" mode='widthFix' style='width:85%' src='/images/voteInfo.png'></image>
@@ -60,17 +60,6 @@
   <view wx:if="{{buttonColorFlag4==1}}">
     <view class="vote4_gray">
       <button bindtap="votePlay4">投票Vote: {{player4}}</button>
-    </view>
-  </view>
-  
-    <view wx:if="{{buttonColorFlag5==0}}">
-    <view class="vote5">
-      <button bindtap="votePlay5">投票Vote: {{player5}}</button>
-    </view>
-  </view>
-  <view wx:if="{{buttonColorFlag5==1}}">
-    <view class="vote5_gray">
-      <button bindtap="votePlay5">投票Vote: {{player5}}</button>
     </view>
   </view>
   

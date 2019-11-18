@@ -1,0 +1,42 @@
+<!--pages/welcome/welcome.wxml-->
+<view class="xman-image-size">
+  <image src="../../images/xman.png" class='xman-image-in'></image>
+</view>
+<view wx:if="{{joinState==0}}">
+  <view class="name-title">Player Name:</view>
+  <view>
+    <div class="input-name">
+
+      <input class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input your name here" />
+    </div>
+  </view>
+  <view>
+    <div class="opt-wrap">
+      <button bindtap="enterGame">报名Join</button>
+    </div>
+  </view>
+</view>
+
+<view wx:if="{{joinState==1}}">
+
+<view class="playerInfo">
+<view wx:if="{{playerNumber>=1}}">
+<view class="player1EnterGame">{{playerOther1_name}} enter the game!</view>
+</view>
+<view wx:if="{{playerNumber>=2}}">
+<view class="player2EnterGame">{{playerOther2_name}} enter the game!</view>
+</view>
+<view wx:if="{{playerNumber>=3}}">
+<view class="player3EnterGame">{{playerOther3_name}} enter the game!</view>
+</view>
+<view wx:if="{{playerNumber>=4}}">
+<view class="player4EnterGame">{{playerOther4_name}} enter the game!</view>
+</view>
+</view>
+<view class="test">flag is :{{flag}}</view>
+<view>
+    <div class="opt-enterGame">
+      <button bindtap="enterGame_getWords">开始游戏Start</button>
+    </div>
+  </view>
+</view>
