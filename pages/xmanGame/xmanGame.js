@@ -32,6 +32,8 @@ Page({
     })
   },
   enterGame_getWords: function(){
+    //var that=this;
+    //that.onLoad();
     wx.navigateTo({
       url: '../init/init'
     })
@@ -121,7 +123,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
+  onLoad: function (options) {
     var that = this;
     watch.setWatcher(this); // 设置监听器，建议在onLoad下调用
     //this.setData({ flag: false })
@@ -273,9 +275,6 @@ Page({
             }
           },
         })
-        that.onLoad();
-        console.log("Flag value is " + that.data.flag);
-        console.log("+++++++++执行onLoad+++++++++");
       }
 
     }, 5000)
@@ -284,7 +283,7 @@ Page({
   watch:{
       flag: function (newVal, oldVal) {
         var that=this;
-        console.log("+++++++++++++++++++++++++++++++++++++++++++++" + newVal, oldVal);
+        console.log("+++++++++++++++++++++++++++++++++++++++++++++" + newVal, oldVal)
       }
   },
 

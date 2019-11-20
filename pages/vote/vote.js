@@ -349,10 +349,10 @@ Page({
   onLoad: function(options) {
     var that=this;
     that.setData({
-    player1:app.globalData.playerOther1,
-    player2:app.globalData.playerOther2,
-    player3:app.globalData.playerOther3,
-    player4:app.globalData.playerOther4,
+    player1:app.globalData.playerOther1.name,
+    player2:app.globalData.playerOther2.name,
+    player3:app.globalData.playerOther3.name,
+    player4:app.globalData.playerOther4.name,
     wordShown:app.globalData.cardMe
     });
   },
