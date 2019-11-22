@@ -9,7 +9,7 @@ Page({
   data: {
     tips: '设置游戏',
     xman: null,
-    gameStatus: 0,
+    gameStatus: 0, //判断是否显示game over的标志位；0则不显示game over
     blankNumber: 0,
     xmanNumber: 1,
     cards: [],
@@ -23,18 +23,18 @@ Page({
     player3: '玩家姓名三',
     player4: '玩家姓名四',
     player5: '玩家姓名五',
-    wordShown:"",//在投票页显示所选词汇
-    wordShown_en:"",//显示所选词汇的英文
+    wordShown: "", //在投票页显示所选词汇
+    wordShown_en: "", //显示所选词汇的英文
     buttonColorFlag1: 0, //投票按钮颜色标志：0代表白色，1代表点击后变灰
     buttonColorFlag2: 0,
     buttonColorFlag3: 0,
     buttonColorFlag4: 0,
     buttonColorFlag5: 0,
-    player1Alive: 'true', //各个玩家生命状态。只有生命状态为TRUE的时候，才会在投票按钮显示该玩家。
-    player2Alive: 'true',
-    player3Alive: 'true',
-    player4Alive: 'true',
-    player5Alive: 'true',
+    player1Alive: "true", //各个玩家生命状态。只有生命状态为TRUE的时候，才会在投票按钮显示该玩家。
+    player2Alive: "true",
+    player3Alive: "true",
+    player4Alive: "true",
+    player5Alive: "true",
     voteButtonLock: 0, //初始状态下，投票按钮无锁。0代表无锁，1代表上锁。作用：投票一次后，锁定投票按钮无法再投。进入下一轮后解锁。
     nextRoundLock: 1 //初始状态下，进入下一轮按钮上锁。0代表无锁，1代表上锁。作用：只有投票后才允许进入下一轮。
   },
@@ -144,35 +144,123 @@ Page({
   },
   votePlay1: function() {
     var myThis = this;
-    if (this.data.voteButtonLock == 0) {
-      wx.showModal({
-        title: '确定投票给' + this.data.player1 + '吗？',
-        content: 'Confim to vote  ' + this.data.player1 + '  ?',
-        showCancel: true, //是否显示取消按钮
-        cancelText: "No", //默认是“取消”
-        cancelColor: 'skyblue', //取消文字的颜色
-        confirmText: "Yes", //默认是“确定”
-        confirmColor: 'skyblue', //确定文字的颜色
-        success: function(res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            console.log("确认");
-            myThis.setData({
-              playerInfo: myThis.data.player1,
-              roundFlag: 1,
-              voteButtonLock: 1,
-              nextRoundLock: 0,
-              buttonColorFlag1: 1
-            })
-            console.log(myThis.data.playerNumber);
-            myThis.onLoad();
-          }
-        },
-        fail: function(res) {}, //接口调用失败的回调函数
-        complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+    if (app.globalData.roundResult.finished == false) {
+      myThis.setData({
+        gameStatus: 0
+      });
+      if (this.data.voteButtonLock == 0) {
+        wx.showModal({
+          title: '确定投票给' + this.data.player1 + '吗？',
+          content: 'Confim to vote  ' + this.data.player1 + '  ?',
+          showCancel: true, //是否显示取消按钮
+          cancelText: "No", //默认是“取消”
+          cancelColor: 'skyblue', //取消文字的颜色
+          confirmText: "Yes", //默认是“确定”
+          confirmColor: 'skyblue', //确定文字的颜色
+          success: function(res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              console.log("确认");
+              myThis.setData({
+                playerInfo: myThis.data.player1,
+                roundFlag: 1,
+                voteButtonLock: 1,
+                nextRoundLock: 0,
+                buttonColorFlag1: 1
+              })
+              console.log(myThis.data.playerNumber);
+              myThis.onLoad();
+            }
+          },
+          fail: function(res) {}, //接口调用失败的回调函数
+          complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+        if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player1,
+              state: 3
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function(res) {
+              console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player1,
+              state: 4
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function(res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player1,
+              state: 5
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function(res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+
+      }
+    }
+    if (app.globalData.roundResult.finished == true){///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+      myThis.setData({
+        gameStatus: 1
+      });
+      app.globalData.isIntervalStopped = true;
     }
   },
 
@@ -181,7 +269,7 @@ Page({
     if (this.data.voteButtonLock == 0) {
       wx.showModal({
         title: '确定投票给' + this.data.player2 + '吗？',
-        content: 'Confim to vote  ' + this.data.player2 + '  ?',
+        content: 'Confirm to vote  ' + this.data.player2 + '  ?',
         showCancel: true, //是否显示取消按钮
         cancelText: "No", //默认是“取消”
         cancelColor: 'skyblue', //取消文字的颜色
@@ -321,7 +409,9 @@ Page({
         buttonColorFlag5: 0,
         voteButtonLock: 0
       })
-      if (this.data.roundNumber > 3) {
+      if (this.data.roundNumber > 3 || app.globalData.roundResult.finished == true) {
+        app.globalData.isIntervalStopped = true;
+        clearInterval(app.globalData.interval);
         this.setData({
           gameStatus: 1,
           voteButtonLock: 1,
@@ -332,6 +422,63 @@ Page({
           buttonColorFlag5: 0,
 
         })
+        console.log("clear Interval");
+        app.globalData.playerOther1.name = "no name";
+        app.globalData.playerOther1.role = "";
+        app.globalData.playerOther1.card = "";
+        app.globalData.playerOther1.objSelected = "";
+        app.globalData.playerOther1.killed = "";
+        ////////////
+        app.globalData.playerOther2.name = "no name";
+        app.globalData.playerOther2.role = "";
+        app.globalData.playerOther2.card = "";
+        app.globalData.playerOther2.objSelected = "";
+        app.globalData.playerOther2.killed = "";
+        ///////////////
+        app.globalData.playerOther3.name = "no name";
+        app.globalData.playerOther3.role = "";
+        app.globalData.playerOther3.card = "";
+        app.globalData.playerOther3.objSelected = "";
+        app.globalData.playerOther3.killed = "";
+        ///////////////
+        app.globalData.playerOther4.name = "no name";
+        app.globalData.playerOther4.role = "";
+        app.globalData.playerOther4.card = "";
+        app.globalData.playerOther4.objSelected = "";
+        app.globalData.playerOther4.killed = "";
+        ///////////////
+        app.globalData.player1.name = "";
+        app.globalData.player1.role = "";
+        app.globalData.player1.card = "";
+        app.globalData.player1.objSelected = "";
+        app.globalData.player1.killed = "";
+        ////////////////
+        app.globalData.player2.name = "";
+        app.globalData.player2.role = "";
+        app.globalData.player2.card = "";
+        app.globalData.player2.objSelected = "";
+        app.globalData.player2.killed = "";
+        ///////////////
+        app.globalData.player3.name = "";
+        app.globalData.player3.role = "";
+        app.globalData.player3.card = "";
+        app.globalData.player3.objSelected = "";
+        app.globalData.player3.killed = "";
+        ////////////////
+        app.globalData.player4.name = "";
+        app.globalData.player4.role = "";
+        app.globalData.player4.card = "";
+        app.globalData.player4.objSelected = "";
+        app.globalData.player4.killed = "";
+        //////////////
+        app.globalData.player5.name = "";
+        app.globalData.player5.role = "";
+        app.globalData.player5.card = "";
+        app.globalData.player5.objSelected = "";
+        app.globalData.player5.killed = "";
+        //////////////
+        app.globalData.playerMe = "";
+        app.globalData.cardMe = "";
       }
       this.onLoad();
       console.log(this.data.roundNumber);
@@ -347,14 +494,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var that=this;
+    var that = this;
     that.setData({
-    player1:app.globalData.playerOther1.name,
-    player2:app.globalData.playerOther2.name,
-    player3:app.globalData.playerOther3.name,
-    player4:app.globalData.playerOther4.name,
-    wordShown:app.globalData.cardMe
+      player1: app.globalData.playerOther1.name,
+      player2: app.globalData.playerOther2.name,
+      player3: app.globalData.playerOther3.name,
+      player4: app.globalData.playerOther4.name,
+      wordShown: app.globalData.cardMe
     });
+    if(app.globalData.playerOther1.killed =="true"){
+      that.setData({
+      player1Alive:"false"
+      });
+    }
+    if (app.globalData.playerOther2.killed == "true") {
+      that.setData({
+        player2Alive: "false"
+      });
+    }
+    if (app.globalData.playerOther3.killed == "true") {
+      that.setData({
+        player3Alive: "false"
+      });
+    }
+    if (app.globalData.playerOther4.killed == "true") {
+      that.setData({
+        player4Alive: "false"
+      });
+    }
   },
 
   /**

@@ -71,6 +71,10 @@ App({
     checkBrList: [],//选中会议室
     contactsList: [],
     boardroomList: [],
+    infoCardNumber:1111,//用户信息界面抽到的卡牌（免喝酒之类）,初始1111，不显示任何图片
+    isIntervalStopped:false,
+    interval:'',//定义一个全局的定时器
+    gameState:0,//游戏当前状态
     playerMe:"",//当前用户的名字
     cardMe:"",//当前用户抽到的词条
     playerOther1: {
@@ -101,7 +105,6 @@ App({
       killed: "",
       objSelected: ""
     },
-    state:0,
     player1: {
       name: "",
       role: "",

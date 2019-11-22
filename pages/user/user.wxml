@@ -1,29 +1,25 @@
-<view class="page">
-	<view class="user">
-    <view>
-      <image class="user-head" src="../../images/meetingRoomLogo.jpg"></image>
+<view class='content'>
+  <view class="showHongbao">
+    <view class='hb_head' style='border-radius: {{hb_head_radius}}rpx {{hb_head_radius}}rpx 0 0;'></view>
+    <view class='hb_body' style='top:{{hb_body_top}}rpx;border-radius: {{hb_body_radius_shang}}rpx {{hb_body_radius_shang}}rpx {{hb_body_radius_xia}}rpx {{hb_body_radius_xia}}rpx;z-index: {{hb_body_zindex}};'></view>
+    <view class='hb_open' style='top:{{hd_open_top}}rpx;' bindtap='openHongbao' wx:if="{{show_open}}">
+      <text>Open</text>
     </view>
-		<view class="user-wrap">
-			<view class="item">
-				<view class="item-title">当前用户 User</view>
-				<view class="item-content">规划部 T-G</view>
-			</view>
-
-			<view class="item">
-				<view class="item-title">账号 Account</view>
-				<view class="item-content">PLmeetingroom</view>
-			</view>
-
-			<view class="item">
-				<view class="item-title">公司 Company</view>
-				<view class="item-content">一汽-大众 Faw-vw</view>
-			</view>
-
-      	<view class="item">
-				<view class="item-title">开发者 Developer</view>
-				<view class="item-content">T-G-PP-5</view>
-			</view>
-
-		</view>
-	</view>
+    <view wx:if="{{cardNumber==1}}">
+      <view class='hb_money' style='top:{{hb_money_top}}rpx;'>
+        <image class="avoidDrinkOnce" src="../../images/avoidDrinkOnce.png"></image>
+      </view>
+    </view>
+    <view wx:if="{{cardNumber==2}}">
+      <view class='hb_money' style='top:{{hb_money_top}}rpx;'>
+        <image class="avoidDrinkOnce" src="../../images/otherOneDrink.png"></image>
+      </view>
+    </view>
+    <view wx:if="{{cardNumber==3}}">
+      <view class='hb_money' style='top:{{hb_money_top}}rpx;'>
+        <image class="avoidDrinkOnce" src="../../images/otherOptions.png"></image>
+      </view>
+    </view>
+    <view class='hb_foot'></view>
+  </view>
 </view>

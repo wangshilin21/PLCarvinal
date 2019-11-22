@@ -9,7 +9,7 @@ Page({
     responseList: null,
     resResult: 1,
     resState: 0,
-    playerOther1_name: "",//仅仅为了调试中打印其他玩家姓名
+    playerOther1_name: "", //仅仅为了调试中打印其他玩家姓名
     playerOther2_name: "",
     playerOther3_name: "",
     playerOther4_name: "",
@@ -18,29 +18,28 @@ Page({
     playerOther3_flag: false,
     playerOther4_flag: false,
     playerNumber: 0,
-    joinState: 0,//初始值为0，代表在报名界面
-    flag:0
+    joinState: 0, //初始值为0，代表在报名界面
+    flag: 0
   },
   /**
    * 页面的初始数据
    */
 
   //事件处理函数
-  bindKeyInput: function (e) {
+  bindKeyInput: function(e) {
     this.setData({
       name_inputValue: e.detail.value
     })
   },
-  enterGame_getWords: function(){
+  enterGame_getWords: function() {
     //var that=this;
     //that.onLoad();
     wx.navigateTo({
       url: '../init/init'
     })
   },
-  enterGame: function () {
+  enterGame: function() { //报名阶段
     var that = this;
-    this.setData({ joinState: 1 });
     console.log("Join state is ::" + that.data.joinState);
     console.log("Player name is " + this.data.name_inputValue);
     // app.globalData.player1.name="world"
@@ -53,10 +52,12 @@ Page({
       });
       return;
     }
-
+    this.setData({
+      joinState: 1
+    });
     wx.request({
       url: 'https://pleeprogram.com/GameSys/molegamewechat',
-      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',  
       data: {
         command: 7,
         name: this.data.name_inputValue
@@ -67,7 +68,7 @@ Page({
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
       },
 
-      success: function (res) {
+      success: function(res) {
 
         //  console.log("response");
         // console.log("test result is :::::::::::::::"+that.data.responseList[that.data.result]);
@@ -75,6 +76,8 @@ Page({
         console.log("state: " + res.data.state);
         console.log("name: " + res.data.name);
         app.globalData.playerMe = res.data.name;
+        app.globalData.gameState = res.data.state;
+        console.log("Game STATE is : " + app.globalData.gameState);
         console.log("name PlayerMe: " + res.data.name);
         that.setData({
           resResult: res.data.result,
@@ -123,17 +126,18 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this;
     watch.setWatcher(this); // 设置监听器，建议在onLoad下调用
     //this.setData({ flag: false })
     wx.setNavigationBarTitle({
       title: '规划经理嘉年华'
     })
-    var interval = setInterval(function () {
+    if(app.globalData.isIntervalStopped==false){
+    app.globalData.interval = setInterval(function() {
       if (that.data.joinState == 1) {
-        that.data.flag=that.data.flag+1;
-        console.log("test data is "+that.data.flag);
+        that.data.flag = that.data.flag + 1;
+        console.log("test data is " + that.data.flag);
         wx.request({
           url: 'https://pleeprogram.com/GameSys/molegamewechat',
           data: {
@@ -143,10 +147,12 @@ Page({
           header: {
             'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
           },
-          success: function (res) {
+          success: function(res) {
             //state
-            app.globalData.state = res.data.state;
-            console.log("state is::" + app.globalData.state);
+            app.globalData.gameState = res.data.state;
+            app.globalData.roundResult.finished = res.data.roundResult.finished;
+            console.log("Is game finished?----" + app.globalData.roundResult.finished);
+            console.log("state is::" + app.globalData.gameState);
             //Player1
             app.globalData.player1.name = res.data.playerList[0].name;
             console.log("Size is ++" + res.data.playerList.length);
@@ -196,6 +202,7 @@ Page({
               app.globalData.player5.killed = res.data.playerList[4].killed;
               that.data.playerNumber = 5;
               console.log("Player Number is " + that.data.playerNumber);
+
               //roundResult
               //app.globalData.roundResult.nameKilled = res.data.roundResult.nameKilled;
               //app.globalData.roundResult.roleKilled = res.data.roundResult.role;
@@ -244,12 +251,12 @@ Page({
               app.globalData.playerOther4 = app.globalData.player4;
               app.globalData.cardMe = app.globalData.player5.card;
             }
-            console.log("Word for Me is ::"+app.globalData.cardMe);
+            console.log("Word for Me is ::" + app.globalData.cardMe);
             console.log("other_player1 : " + app.globalData.playerOther1.name);
             console.log("other_player2 : " + app.globalData.playerOther2.name);
             console.log("other_player3 : " + app.globalData.playerOther3.name);
             console.log("other_player4 : " + app.globalData.playerOther4.name);
-            if (app.globalData.playerOther1.name != "no name" ) {
+            if (app.globalData.playerOther1.name != "no name") {
               that.data.playerOther1_flag = true;
               that.data.playerOther1_name = app.globalData.playerOther1.name;
               console.log("flag1::" + that.data.playerOther1_flag);
@@ -278,61 +285,62 @@ Page({
       }
 
     }, 5000)
-    // 生命周期函数--监听页面加载
+    }
+    // 关闭计时器
   },
-  watch:{
-      flag: function (newVal, oldVal) {
-        var that=this;
-        console.log("+++++++++++++++++++++++++++++++++++++++++++++" + newVal, oldVal)
-      }
+  watch: {
+    flag: function(newVal, oldVal) {
+      var that = this;
+      console.log("+++++++++++++++++++++++++++++++++++++++++++++" + newVal, oldVal)
+    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })
