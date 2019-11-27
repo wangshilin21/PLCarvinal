@@ -18,7 +18,7 @@ Page({
     result: '游戏进行中',
     class1: 'z1', //默认正面在上面
     class2: 'z2',
-    wordChoose: 'word2'
+    wordChoose: ''
   },
   generatorArray: function (num) {
     let arr = []
@@ -44,6 +44,7 @@ Page({
     })
   },
   voteXman:function (e){
+    
     wx.navigateTo({
       url: '../vote/vote'
     })
@@ -54,6 +55,7 @@ Page({
       playerNumber:5,
       blankNumber:0,
       xmanNumber:1,
+      wordChoose:app.globalData.cardMe
     })
     let mdata = {
       playerNumber: this.data.playerNumber,

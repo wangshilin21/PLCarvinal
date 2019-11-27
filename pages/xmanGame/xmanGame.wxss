@@ -22,20 +22,65 @@ height:500rpx;
  justify-content: center;
 }
 .player1EnterGame{
- padding-top:2rpx;
+display:flex;
+justify-content: center;
+ padding-top:20rpx;
  color:#2947f1;
 }
 .player2EnterGame{
+   display:flex;
+    justify-content: center;
  padding-top:2rpx;
  color:#2947f1;
 }
 .player3EnterGame{
+   display:flex;
+ justify-content: center;
  padding-top:2rpx;
  color:#2947f1;
 }
 .player4EnterGame{
+   display:flex;
+    justify-content: center;
  padding-top:2rpx;
  color:#2947f1;
+}
+.informStartGame{
+  display:flex;
+  justify-content: center;
+ padding-top:5rpx;
+ color:#f10b0b;
+}
+.informStartGame_en1{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#f10b0b;
+}
+.informStartGame_en2{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#f10b0b;
+}
+
+.informStartGame2{
+  display:flex;
+  justify-content: center;
+ padding-top:5rpx;
+ color:#36ec09;
+}
+.informStartGame2_en1{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#36ec09;
+}
+.informStartGame2_en2{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#36ec09;
 }
 .opt-wrap {
   display: block;
@@ -78,13 +123,9 @@ height:500rpx;
   justify-content: center;
   padding-top: 30px;
 }
-.test{
-  display: block;
-  padding-top: 100rpx;
-}
 .opt-enterGame{
   display: block;
-  padding-top: 100rpx;
+  padding-top: 50rpx;
 }
 .opt-enterGame button {
   width: 300rpx;

@@ -19,22 +19,30 @@
 
 <view wx:if="{{joinState==1}}">
 
-<view class="playerInfo">
-<view wx:if="{{playerNumber>=1}}">
-<view class="player1EnterGame">{{playerOther1_name}} enter the game!</view>
-</view>
-<view wx:if="{{playerNumber>=2}}">
-<view class="player2EnterGame">{{playerOther2_name}} enter the game!</view>
-</view>
-<view wx:if="{{playerNumber>=3}}">
-<view class="player3EnterGame">{{playerOther3_name}} enter the game!</view>
-</view>
-<view wx:if="{{playerNumber>=4}}">
-<view class="player4EnterGame">{{playerOther4_name}} enter the game!</view>
-</view>
-</view>
-<view class="test">flag is :{{flag}}</view>
-<view>
+
+  <view wx:if="{{playerNumber>=2&&playerOther1_flag==true}}">
+    <view class="player1EnterGame">{{playerOther1_name}} enter the game!</view>
+  </view>
+  <view wx:if="{{playerNumber>=3&&playerOther2_flag==true}}">
+    <view class="player2EnterGame">{{playerOther2_name}} enter the game!</view>
+  </view>
+  <view wx:if="{{playerNumber>=4&&playerOther3_flag==true}}">
+    <view class="player3EnterGame">{{playerOther3_name}} enter the game!</view>
+  </view>
+  <view wx:if="{{playerNumber>=5&&playerOther4_flag==true}}">
+    <view class="player4EnterGame">{{playerOther4_name}} enter the game!</view>
+    <view wx:if="{{wordHasGotten==false}}">
+     <view class="informStartGame">所有玩家已就位，请等待发词！</view>
+     <view class="informStartGame_en1">All players are ready</view>
+     <view class="informStartGame_en2">Please wait for your word！</view>
+     </view>
+  <view wx:if="{{wordHasGotten==true}}">
+     <view class="informStartGame2">词汇已获取，请开始游戏！</view>
+     <view class="informStartGame2_en1">Your word has arrived</view>
+     <view class="informStartGame2_en2">Please start the game！</view>
+     </view>
+  </view>
+  <view>
     <div class="opt-enterGame">
       <button bindtap="enterGame_getWords">开始游戏Start</button>
     </div>

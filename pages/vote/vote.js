@@ -263,138 +263,370 @@ Page({
       app.globalData.isIntervalStopped = true;
     }
   },
+///Vote2按钮
+  votePlay2: function () {
+    var myThis = this;
+    if (app.globalData.roundResult.finished == false) {
+      myThis.setData({
+        gameStatus: 0
+      });
+      if (this.data.voteButtonLock == 0) {
+        wx.showModal({
+          title: '确定投票给' + this.data.player2 + '吗？',
+          content: 'Confim to vote  ' + this.data.player2 + '  ?',
+          showCancel: true, //是否显示取消按钮
+          cancelText: "No", //默认是“取消”
+          cancelColor: 'skyblue', //取消文字的颜色
+          confirmText: "Yes", //默认是“确定”
+          confirmColor: 'skyblue', //确定文字的颜色
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              console.log("确认");
+              myThis.setData({
+                playerInfo: myThis.data.player2,
+                roundFlag: 1,
+                voteButtonLock: 1,
+                nextRoundLock: 0,
+                buttonColorFlag2: 1
+              })
+              console.log(myThis.data.playerNumber);
+              myThis.onLoad();
+            }
+          },
+          fail: function (res) { }, //接口调用失败的回调函数
+          complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+        if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player2,
+              state: 3
+            },
 
-  votePlay2: function() {
-    var myThis = this;
-    if (this.data.voteButtonLock == 0) {
-      wx.showModal({
-        title: '确定投票给' + this.data.player2 + '吗？',
-        content: 'Confirm to vote  ' + this.data.player2 + '  ?',
-        showCancel: true, //是否显示取消按钮
-        cancelText: "No", //默认是“取消”
-        cancelColor: 'skyblue', //取消文字的颜色
-        confirmText: "Yes", //默认是“确定”
-        confirmColor: 'skyblue', //确定文字的颜色
-        success: function(res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            console.log("确认");
-            myThis.setData({
-              playerInfo: myThis.data.player2,
-              roundFlag: 1,
-              nextRoundLock: 0,
-              voteButtonLock: 1,
-              buttonColorFlag2: 1
-            })
-            console.log(myThis.data.playerNumber);
-            myThis.onLoad();
-          }
-        },
-        fail: function(res) {}, //接口调用失败的回调函数
-        complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
-    }
-  },
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
 
-  votePlay3: function() {
-    var myThis = this;
-    if (this.data.voteButtonLock == 0) {
-      wx.showModal({
-        title: '确定投票给' + this.data.player3 + '吗？',
-        content: 'Confim to vote  ' + this.data.player3 + '  ？',
-        showCancel: true, //是否显示取消按钮
-        cancelText: "No", //默认是“取消”
-        cancelColor: 'skyblue', //取消文字的颜色
-        confirmText: "Yes", //默认是“确定”
-        confirmColor: 'skyblue', //确定文字的颜色
-        success: function(res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            console.log("确认");
-            myThis.setData({
-              playerInfo: myThis.data.player3,
-              roundFlag: 1,
-              nextRoundLock: 0,
-              voteButtonLock: 1,
-              buttonColorFlag3: 1
-            })
-            console.log(myThis.data.playerNumber);
-            myThis.onLoad();
-          }
-        },
-        fail: function(res) {}, //接口调用失败的回调函数
-        complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+            success: function (res) {
+              console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player2,
+              state: 4
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player2,
+              state: 5
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+
+      }
+    }
+    if (app.globalData.roundResult.finished == true) {///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+      myThis.setData({
+        gameStatus: 1
+      });
+      app.globalData.isIntervalStopped = true;
     }
   },
-  votePlay4: function() {
+  ///vote3 按钮
+  votePlay3: function () {
     var myThis = this;
-    if (this.data.voteButtonLock == 0) {
-      wx.showModal({
-        title: '确定投票给' + this.data.player4 + '吗？',
-        content: 'Confim to vote  ' + this.data.player4 + '  ？',
-        showCancel: true, //是否显示取消按钮
-        cancelText: "No", //默认是“取消”
-        cancelColor: 'skyblue', //取消文字的颜色
-        confirmText: "Yes", //默认是“确定”
-        confirmColor: 'skyblue', //确定文字的颜色
-        success: function(res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            console.log("确认");
-            myThis.setData({
-              playerInfo: myThis.data.player4,
-              roundFlag: 1,
-              nextRoundLock: 0,
-              voteButtonLock: 1,
-              buttonColorFlag4: 1
-            })
-            console.log(myThis.data.playerNumber);
-            myThis.onLoad();
-          }
-        },
-        fail: function(res) {}, //接口调用失败的回调函数
-        complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+    if (app.globalData.roundResult.finished == false) {
+      myThis.setData({
+        gameStatus: 0
+      });
+      if (this.data.voteButtonLock == 0) {
+        wx.showModal({
+          title: '确定投票给' + this.data.player3 + '吗？',
+          content: 'Confim to vote  ' + this.data.player3 + '  ?',
+          showCancel: true, //是否显示取消按钮
+          cancelText: "No", //默认是“取消”
+          cancelColor: 'skyblue', //取消文字的颜色
+          confirmText: "Yes", //默认是“确定”
+          confirmColor: 'skyblue', //确定文字的颜色
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              console.log("确认");
+              myThis.setData({
+                playerInfo: myThis.data.player3,
+                roundFlag: 1,
+                voteButtonLock: 1,
+                nextRoundLock: 0,
+                buttonColorFlag3: 1
+              })
+              console.log(myThis.data.playerNumber);
+              myThis.onLoad();
+            }
+          },
+          fail: function (res) { }, //接口调用失败的回调函数
+          complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+        if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player3,
+              state: 3
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player3,
+              state: 4
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player3,
+              state: 5
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+
+      }
+    }
+    if (app.globalData.roundResult.finished == true) {///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+      myThis.setData({
+        gameStatus: 1
+      });
+      app.globalData.isIntervalStopped = true;
     }
   },
-  votePlay5: function() {
+  //vote4按钮
+  votePlay4: function () {
     var myThis = this;
-    if (this.data.voteButtonLock == 0) {
-      wx.showModal({
-        title: '确定投票给' + this.data.player5 + '吗？',
-        content: 'Confim to vote  ' + this.data.player5 + '  ？',
-        showCancel: true, //是否显示取消按钮
-        cancelText: "No", //默认是“取消”
-        cancelColor: 'skyblue', //取消文字的颜色
-        confirmText: "Yes", //默认是“确定”
-        confirmColor: 'skyblue', //确定文字的颜色
-        success: function(res) {
-          if (res.cancel) {
-            //点击取消,默认隐藏弹框
-          } else {
-            //点击确定
-            console.log("确认");
-            myThis.setData({
-              playerInfo: myThis.data.player5,
-              roundFlag: 1,
-              nextRoundLock: 0,
-              buttonColorFlag5: 1,
-              voteButtonLock: 1
-            })
-            console.log(myThis.data.playerNumber);
-            myThis.onLoad();
-          }
-        },
-        fail: function(res) {}, //接口调用失败的回调函数
-        complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-      })
+    if (app.globalData.roundResult.finished == false) {
+      myThis.setData({
+        gameStatus: 0
+      });
+      if (this.data.voteButtonLock == 0) {
+        wx.showModal({
+          title: '确定投票给' + this.data.player4 + '吗？',
+          content: 'Confim to vote  ' + this.data.player4 + '  ?',
+          showCancel: true, //是否显示取消按钮
+          cancelText: "No", //默认是“取消”
+          cancelColor: 'skyblue', //取消文字的颜色
+          confirmText: "Yes", //默认是“确定”
+          confirmColor: 'skyblue', //确定文字的颜色
+          success: function (res) {
+            if (res.cancel) {
+              //点击取消,默认隐藏弹框
+            } else {
+              //点击确定
+              console.log("确认");
+              myThis.setData({
+                playerInfo: myThis.data.player4,
+                roundFlag: 1,
+                voteButtonLock: 1,
+                nextRoundLock: 0,
+                buttonColorFlag4: 1
+              })
+              console.log(myThis.data.playerNumber);
+              myThis.onLoad();
+            }
+          },
+          fail: function (res) { }, //接口调用失败的回调函数
+          complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+        })
+        if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player4,
+              state: 3
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player4,
+              state: 4
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+        if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
+          wx.request({
+            url: 'https://pleeprogram.com/GameSys/molegamewechat',
+            //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+            data: {
+              command: 8,
+              name: app.globalData.playerMe,
+              objSelected: this.data.player4,
+              state: 5
+            },
+
+            method: 'GET',
+            header: {
+              'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+
+            success: function (res) {
+              console.log("result: " + res.data.result);
+              console.log("state: " + res.data.state);
+              console.log("name: " + res.data.name);
+            },
+
+          })
+
+        }
+
+      }
+    }
+    if (app.globalData.roundResult.finished == true) {///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+      myThis.setData({
+        gameStatus: 1
+      });
+      app.globalData.isIntervalStopped = true;
     }
   },
   nextRound: function() {
