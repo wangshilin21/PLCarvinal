@@ -54,6 +54,13 @@ Page({
     }
   },
 
+  backToMain: function (e) {
+    console.log("note1");
+    wx.switchTab({
+      url: "../main/main"
+    })
+  },
+
   onLoad() {
     if (app.globalData.infoCardNumber == 1111) {
       //只有首次开卡的时候会生成随机数并赋值
@@ -77,7 +84,6 @@ Page({
         cardNumber: 3
       });
     }
-
 
     // 生命周期函数--监听页面加载
   },

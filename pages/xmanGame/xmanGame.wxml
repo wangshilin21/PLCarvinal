@@ -3,11 +3,10 @@
   <image src="../../images/xman.png" class='xman-image-in'></image>
 </view>
 <view wx:if="{{joinState==0}}">
-  <view class="name-title">Player Name:</view>
+  <view class="name-title">Player ID:</view>
   <view>
     <div class="input-name">
-
-      <input class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input your name here" />
+      <input value="{{name_inputValue}}" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input your name here" />
     </div>
   </view>
   <view>

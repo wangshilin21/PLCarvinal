@@ -22,45 +22,45 @@
 <view class="voteinfo">
   <view wx:if="{{buttonColorFlag1==0 && gameStatus==0}}">
     <view class="vote1">
-      <button bindtap="votePlay1">投票Vote: {{player1}}</button>
+      <button bindtap="votePlay1">投票给 Vote to {{player1_en}}</button>
     </view>
   </view>
   <view wx:if="{{buttonColorFlag1==1 && gameStatus==0}}">
     <view class="vote1_gray">
-      <button bindtap="votePlay1">投票Vote: {{player1}}</button>
+      <button bindtap="votePlay1">投票给 Vote to {{player1_en}}</button>
     </view>
   </view>
   
     <view wx:if="{{buttonColorFlag2==0 && gameStatus==0}}">
     <view class="vote2">
-      <button bindtap="votePlay2">投票Vote: {{player2}}</button>
+      <button bindtap="votePlay2">投票给 Vote to {{player2_en}}</button>
     </view>
   </view>
   <view wx:if="{{buttonColorFlag2==1 && gameStatus==0}}">
     <view class="vote2_gray">
-      <button bindtap="votePlay2">投票Vote: {{player2}}</button>
+      <button bindtap="votePlay2">投票给 Vote to {{player2_en}}</button>
     </view>
   </view>
   
     <view wx:if="{{buttonColorFlag3==0 && gameStatus==0}}">
     <view class="vote3">
-      <button bindtap="votePlay3">投票Vote: {{player3}}</button>
+      <button bindtap="votePlay3">投票给 Vote to {{player3_en}}</button>
     </view>
   </view>
   <view wx:if="{{buttonColorFlag3==1 && gameStatus==0}}">
     <view class="vote3_gray">
-      <button bindtap="votePlay3">投票Vote: {{player3}}</button>
+      <button bindtap="votePlay3">投票给 Vote to {{player3_en}}</button>
     </view>
   </view>
   
     <view wx:if="{{buttonColorFlag4==0 && gameStatus==0}}">
     <view class="vote4">
-      <button bindtap="votePlay4">投票Vote: {{player4}}</button>
+      <button bindtap="votePlay4">投票给 Vote to {{player4_en}}</button>
     </view>
   </view>
   <view wx:if="{{buttonColorFlag4==1 && gameStatus==0}}">
     <view class="vote4_gray">
-      <button bindtap="votePlay4">投票Vote: {{player4}}</button>
+      <button bindtap="votePlay4">投票给 Vote to {{player4_en}}</button>
     </view>
   </view>
   

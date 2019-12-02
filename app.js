@@ -75,70 +75,108 @@ App({
     isIntervalStopped:false,
     interval:'',//定义一个全局的定时器
     gameState:0,//游戏当前状态
-    playerMe:"",//当前用户的名字
+    playerMe:"",//当前用户的ID
+    playerMe_team:"",
     cardMe:"",//当前用户抽到的词条
+    cardMe_en:"",
     playerOther1: {
+      userID:"XXX",
       name: "no name",
+      englishName:"no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected:"",
+      objSelected: "",
+      englishObjSelected:"",
+      killed: ""
     },
     playerOther2: {
+      userID: "XXX",
       name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     playerOther3: {
+      userID: "XXX",
       name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     playerOther4: {
+      userID: "XXX",
       name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     player1: {
-      name: "",
+      userID: "XXX",//默认值是XXX
+      name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     player2: {
-      name: "",
+      userID: "XXX",
+      name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     player3: {
-      name: "",
+      userID: "XXX",
+      name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     player4: {
-      name: "",
+      userID: "XXX",
+      name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     player5: {
-      name: "",
+      userID: "XXX",
+      name: "no name",
+      englishName: "no English name",
       role: "",
       card: "",
-      killed: "",
-      objSelected: ""
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
     },
     roundResult:{
       nameKilled:"",

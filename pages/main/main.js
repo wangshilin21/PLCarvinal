@@ -8,10 +8,12 @@ Page({
       url: "../xmanGame/xmanGame"
     })
   },
-  schedule() {
+  signin(){
     wx.navigateTo({
-      url: "../check/check"
+      url: "../welcome/welcome"
     })
+  },
+  schedule() {
   },
 
 

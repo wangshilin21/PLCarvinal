@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/main/main",
+    "pages/welcome/welcome",
     "pages/local/local",
     "pages/reserve/reserve",
     "pages/check/check",

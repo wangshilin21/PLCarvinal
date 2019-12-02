@@ -12,7 +12,7 @@
 }
 .btn button{
 	width: 95%;
-  height: 400rpx;
+  height: 250rpx;
 	margin-bottom: 10rpx;
   align-items: center;
 }
@@ -21,7 +21,11 @@
 	height: 150rpx;
 	display: inline-block;
 	vertical-align: middle;
-  margin-top: 50rpx;
+  margin-top: 10rpx;
+}
+.picInfo{
+  color:black;
+  font-size: 32rpx;
 }
 .logo {
     width: 100%;

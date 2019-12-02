@@ -62,3 +62,20 @@
   width: 100%;
   height: 100%;
 }
+.backToMain{
+  display: flex;
+  padding-top: 60rpx;
+  justify-content: center;
+  align-content: center;
+}
+.backToMain button {
+  width: 300rpx;
+  height: 80rpx;
+  font-size: 36rpx;
+  line-height: 80rpx;
+  border-radius: 80rpx;
+  /*color: #fff;*/
+  color: #1e5adb;
+  background: #fff;
+  border: solid 1rpx #2947f1;
+}
