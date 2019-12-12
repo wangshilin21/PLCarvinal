@@ -1,5 +1,6 @@
 // pages/init/init.js
 const Xman = require('../../service/xman.js')
+var util = require('../../utils/util.js');
 const app = getApp()
 Page({
 
@@ -15,7 +16,11 @@ Page({
     cards: [],
     currentPlayer: 0,
     result: '游戏进行中',
+
     roundNumber: 1, //投票轮数
+    round1Flag:false,//判断第一轮是否已经投过票
+    round2Flag:false,//判断第二轮是否已经投过票
+    round3Flag:false,//判断第三轮是否已经投过票
     playerInfo: '',
     roundFlag: 0, //标志位，区分只显示Round1，还是显示Round1： You voted xx
     player1: '玩家姓名一', //玩家姓名来源于Server，与前端显示一致
@@ -28,6 +33,7 @@ Page({
     player3_en: 'wanjia3',
     player4_en: 'wanjia4',
     player5_en: 'wanjia5',
+    gameStateTemp:404,//用來存儲當前狀態，狀態改變時觸發
     wordShown: "", //在投票页显示所选词汇
     wordShown_en: "", //显示所选词汇的英文
     buttonColorFlag1: 0, //投票按钮颜色标志：0代表白色，1代表点击后变灰
@@ -35,16 +41,25 @@ Page({
     buttonColorFlag3: 0,
     buttonColorFlag4: 0,
     buttonColorFlag5: 0,
-    player1Alive: "true", //各个玩家生命状态。只有生命状态为TRUE的时候，才会在投票按钮显示该玩家。
-    player2Alive: "true",
-    player3Alive: "true",
-    player4Alive: "true",
-    player5Alive: "true",
+    player1ID: "",
+    player2ID: "",
+    player3ID: "",
+    player4ID: "",
+    player5ID: "",
+    checkPlayer1Alive:false,//尚未显示玩家死亡信息
+    checkPlayer2Alive: false,//尚未显示玩家死亡信息
+    checkPlayer3Alive: false,//尚未显示玩家死亡信息
+    checkPlayer4Alive: false,//尚未显示玩家死亡信息
+    checkPlayerMeAlive:false,//显示自己的生命状态
+    player1Alive: true, //各个玩家生命状态。只有生命状态为TRUE的时候，才会在投票按钮显示该玩家。
+    player2Alive: true,
+    player3Alive: true,
+    player4Alive: true,
+    player5Alive: true,
+    winnerRole:"",
     voteButtonLock: 0, //初始状态下，投票按钮无锁。0代表无锁，1代表上锁。作用：投票一次后，锁定投票按钮无法再投。进入下一轮后解锁。
     nextRoundLock: 1 //初始状态下，进入下一轮按钮上锁。0代表无锁，1代表上锁。作用：只有投票后才允许进入下一轮。
   },
-
-
   generatorArray: function(num) {
     let arr = []
     while (num-- > 0) {
@@ -81,7 +96,7 @@ Page({
     this.data.xman.init(mdata.playerNumber, mdata.xmanNumber, mdata.blankNumber)
     this.data.xman.start()
     let idArray = this.data.xman.getIdArray()
-    console.log(idArray)
+    //////console.log(idArray)
     this.setData({
       gameStatus: this.data.xman.getStatus(),
       cards: idArray
@@ -95,7 +110,7 @@ Page({
   confirmWord: function(e) {
     let curr = this.data.currentPlayer
     let id = this.data.xman.confirmWord(curr)
-    console.log(id.desc)
+    //console.log(id.desc)
     let that = this
     wx.showModal({
       title: '你的词语',
@@ -121,7 +136,7 @@ Page({
       return false
     }
     let res = this.data.xman.exposePlayer(playerId)
-    console.log(res)
+    //console.log(res)
     let idArray = this.data.xman.getIdArray()
     this.setData({
       gameStatus: this.data.xman.getStatus(),
@@ -132,7 +147,7 @@ Page({
   continueGame: function() {
     this.data.xman.start()
     let idArray = this.data.xman.getIdArray()
-    console.log(idArray)
+    //console.log(idArray)
     this.setData({
       gameStatus: this.data.xman.getStatus(),
       result: "游戏未开始",
@@ -141,11 +156,11 @@ Page({
     })
   },
   backToMenu: function() {
-    console.log("exit");
+    //console.log("exit");
     wx.switchTab({
       url: "../main/main"
     })
-    console.log("exit over");
+    //console.log("exit over");
   },
   votePlay1: function() {
     var that = this;
@@ -153,65 +168,66 @@ Page({
       that.setData({
         gameStatus: 0
       });
-      if(that.data.roundNumber==1){
-      if (app.globalData.gameState == 3) {
-        if (this.data.voteButtonLock == 0) {
-          wx.showModal({
-            title: '确定投票给' + this.data.player1 + '吗？',
-            content: 'Confim to vote  ' + this.data.player1_en + '  ?',
-            showCancel: true, //是否显示取消按钮
-            cancelText: "No", //默认是“取消”
-            cancelColor: 'skyblue', //取消文字的颜色
-            confirmText: "Yes", //默认是“确定”
-            confirmColor: 'skyblue', //确定文字的颜色
-            success: function(res) {
-              if (res.cancel) {
-                //点击取消,默认隐藏弹框
-              } else {
-                //点击确定
-                console.log("确认");
-                that.setData({
-                  playerInfo: that.data.player1_en,
-                  roundFlag: 1,
-                  voteButtonLock: 1,
-                  nextRoundLock: 0,
-                  buttonColorFlag1: 1
-                })
-                console.log(that.data.playerNumber);
-                that.onLoad();
-              }
-            },
-            fail: function(res) {}, //接口调用失败的回调函数
-            complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-          })
-          if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
-            wx.request({
-              url: 'https://pleeprogram.com/GameSys/molegamewechat',
-              //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-              data: {
-                command: 8,
-                userID: app.globalData.playerMe,
-                IDSelected: this.data.player1.userID,
-                state: 3
-              },
-
-              method: 'GET',
-              header: {
-                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-              },
-
+      if (that.data.roundNumber == 1) {
+        if (app.globalData.gameState == 3) {
+          if (this.data.voteButtonLock == 0) {
+            wx.showModal({
+              title: '确定投票给' + this.data.player1 + '吗？',
+              content: 'Confim to vote  ' + this.data.player1_en + '  ?',
+              showCancel: true, //是否显示取消按钮
+             // cancelText: "No", //默认是“取消”
+              //cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+              //confirmColor: 'skyblue', //确定文字的颜色
               success: function(res) {
-                console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                console.log("result: " + res.data.result);
-                console.log("state: " + res.data.state);
-                console.log("name: " + res.data.name);
+                if (res.cancel) {
+                  //点击取消,默认隐藏弹框
+                } else {
+                  //点击确定
+                  //console.log("确认");
+                  that.setData({
+                    playerInfo: that.data.player1_en,
+                    roundFlag: 1,
+                    voteButtonLock: 1,
+                    nextRoundLock: 0,
+                    buttonColorFlag1: 1
+                  })
+                  //console.log(that.data.playerNumber);
+                  that.onLoad();
+                }
               },
-
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
+            if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
+              wx.request({
+                url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                data: {
+                  command: 8,
+                  userID: app.globalData.playerMe,
+                  idSelected: this.data.player1ID,
+                  state: 3
+                },
 
+                method: 'GET',
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
+
+                success: function(res) {
+                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
+                },
+
+              })
+              that.data.round1Flag=true;
+            }
           }
         }
-      }
+
         if (app.globalData.gameState != 3) {
           wx.showModal({
             title: '投票尚未开始，请等待',
@@ -221,66 +237,66 @@ Page({
         }
       }
       if (that.data.roundNumber == 2) {
-      if (app.globalData.gameState == 4) {
-        if (this.data.voteButtonLock == 0) {
-          wx.showModal({
-            title: '确定投票给' + this.data.player1 + '吗？',
-            content: 'Confim to vote  ' + this.data.player1_en + '  ?',
-            showCancel: true, //是否显示取消按钮
-            cancelText: "No", //默认是“取消”
-            cancelColor: 'skyblue', //取消文字的颜色
-            confirmText: "Yes", //默认是“确定”
-            confirmColor: 'skyblue', //确定文字的颜色
-            success: function(res) {
-              if (res.cancel) {
-                //点击取消,默认隐藏弹框
-              } else {
-                //点击确定
-                console.log("确认");
-                that.setData({
-                  playerInfo: that.data.player1_en,
-                  roundFlag: 1,
-                  voteButtonLock: 1,
-                  nextRoundLock: 0,
-                  buttonColorFlag1: 1
-                })
-                console.log(that.data.playerNumber);
-                that.onLoad();
-              }
-            },
-            fail: function(res) {}, //接口调用失败的回调函数
-            complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-          })
-          if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
-            wx.request({
-              url: 'https://pleeprogram.com/GameSys/molegamewechat',
-              //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-              data: {
-                command: 8,
-                userID: app.globalData.playerMe,
-                IDSelected: this.data.player1.userID,
-                state: 4
-              },
-
-              method: 'GET',
-              header: {
-                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-              },
-
+        if (app.globalData.gameState == 4) {
+          if (this.data.voteButtonLock == 0) {
+            wx.showModal({
+              title: '确定投票给' + this.data.player1 + '吗？',
+              content: 'Confim to vote  ' + this.data.player1_en + '  ?',
+              showCancel: true, //是否显示取消按钮
+              //cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+              //confirmColor: 'skyblue', //确定文字的颜色
               success: function(res) {
-                console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                console.log("result: " + res.data.result);
-                console.log("state: " + res.data.state);
-                console.log("name: " + res.data.name);
+                if (res.cancel) {
+                  //点击取消,默认隐藏弹框
+                } else {
+                  //点击确定
+                  //console.log("确认");
+                  that.setData({
+                    playerInfo: that.data.player1_en,
+                    roundFlag: 1,
+                    voteButtonLock: 1,
+                    nextRoundLock: 0,
+                    buttonColorFlag1: 1
+                  })
+                  //console.log(that.data.playerNumber);
+                  that.onLoad();
+                }
               },
-
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
+            if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
+              wx.request({
+                url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                data: {
+                  command: 8,
+                  userID: app.globalData.playerMe,
+                  idSelected: this.data.player1ID,
+                  state: 4
+                },
 
+                method: 'GET',
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
+
+                success: function(res) {
+                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
+                },
+
+              })
+              that.data.round2Flag = true;
+
+            }
 
           }
-
         }
-      }
         if (app.globalData.gameState != 4) {
           wx.showModal({
             title: '投票尚未开始，请等待',
@@ -290,66 +306,66 @@ Page({
         }
       }
       if (that.data.roundNumber == 3) {
-      if (app.globalData.gameState == 5) {
-        if (this.data.voteButtonLock == 0) {
-          wx.showModal({
-            title: '确定投票给' + this.data.player1 + '吗？',
-            content: 'Confim to vote  ' + this.data.player1_en + '  ?',
-            showCancel: true, //是否显示取消按钮
-            cancelText: "No", //默认是“取消”
-            cancelColor: 'skyblue', //取消文字的颜色
-            confirmText: "Yes", //默认是“确定”
-            confirmColor: 'skyblue', //确定文字的颜色
-            success: function(res) {
-              if (res.cancel) {
-                //点击取消,默认隐藏弹框
-              } else {
-                //点击确定
-                console.log("确认");
-                that.setData({
-                  playerInfo: that.data.player1_en,
-                  roundFlag: 1,
-                  voteButtonLock: 1,
-                  nextRoundLock: 0,
-                  buttonColorFlag1: 1
-                })
-                console.log(that.data.playerNumber);
-                that.onLoad();
-              }
-            },
-            fail: function(res) {}, //接口调用失败的回调函数
-            complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
-          })
-          if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
-            wx.request({
-              url: 'https://pleeprogram.com/GameSys/molegamewechat',
-              //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-              data: {
-                command: 8,
-                userID: app.globalData.playerMe,
-                IDSelected: this.data.player1.userID,
-                state: 5
-              },
-
-              method: 'GET',
-              header: {
-                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-              },
-
+        if (app.globalData.gameState == 5) {
+          if (this.data.voteButtonLock == 0) {
+            wx.showModal({
+              title: '确定投票给' + this.data.player1 + '吗？',
+              content: 'Confim to vote  ' + this.data.player1_en + '  ?',
+              showCancel: true, //是否显示取消按钮
+              //cancelText: "No", //默认是“取消”
+              //cancelColor: 'skyblue', //取消文字的颜色
+              //confirmText: "Yes", //默认是“确定”
+              //confirmColor: 'skyblue', //确定文字的颜色
               success: function(res) {
-                console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                console.log("result: " + res.data.result);
-                console.log("state: " + res.data.state);
-                console.log("name: " + res.data.name);
+                if (res.cancel) {
+                  //点击取消,默认隐藏弹框
+                } else {
+                  //点击确定
+                  //console.log("确认");
+                  that.setData({
+                    playerInfo: that.data.player1_en,
+                    roundFlag: 1,
+                    voteButtonLock: 1,
+                    nextRoundLock: 0,
+                    buttonColorFlag1: 1
+                  })
+                  //console.log(that.data.playerNumber);
+                  that.onLoad();
+                }
               },
-
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
+            if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
+              wx.request({
+                url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                data: {
+                  command: 8,
+                  userID: app.globalData.playerMe,
+                  idSelected: this.data.player1ID,
+                  state: 5
+                },
 
+                method: 'GET',
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
+
+                success: function(res) {
+                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
+                },
+
+              })
+              that.data.round3Flag = true;
+
+            }
 
           }
-
         }
-      }
         if (app.globalData.gameState != 5) {
           wx.showModal({
             title: '投票尚未开始，请等待',
@@ -359,15 +375,16 @@ Page({
         }
       }
     }
+    /** 
     if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
       that.setData({
         gameStatus: 1
       });
       app.globalData.isIntervalStopped = true;
-    }
+  }*/
   },
   ///Vote2按钮
-  votePlay2: function () {
+  votePlay2: function() {
     var that = this;
     if (app.globalData.roundResult.finished == false) {
       that.setData({
@@ -380,16 +397,16 @@ Page({
               title: '确定投票给' + this.data.player2 + '吗？',
               content: 'Confim to vote  ' + this.data.player2_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+             // cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+             // confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player2_en,
                     roundFlag: 1,
@@ -397,12 +414,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag2: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
               wx.request({
@@ -411,7 +428,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player2.userID,
+                  idSelected: this.data.player2ID,
                   state: 3
                 },
 
@@ -420,15 +437,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round1Flag = true;
             }
           }
         }
@@ -447,16 +464,16 @@ Page({
               title: '确定投票给' + this.data.player2 + '吗？',
               content: 'Confim to vote  ' + this.data.player2_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+             // cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+             // confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player2_en,
                     roundFlag: 1,
@@ -464,12 +481,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag2: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
               wx.request({
@@ -478,7 +495,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player2.userID,
+                  idSelected: this.data.player2ID,
                   state: 4
                 },
 
@@ -487,15 +504,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round2Flag = true;
 
             }
 
@@ -516,16 +533,16 @@ Page({
               title: '确定投票给' + this.data.player2 + '吗？',
               content: 'Confim to vote  ' + this.data.player2_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+              //cancelText: "No", //默认是“取消”
+              //cancelColor: 'skyblue', //取消文字的颜色
+              //confirmText: "Yes", //默认是“确定”
+             // confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player2_en,
                     roundFlag: 1,
@@ -533,12 +550,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag2: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
               wx.request({
@@ -547,7 +564,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player2.userID,
+                  idSelected: this.data.player2ID,
                   state: 5
                 },
 
@@ -556,15 +573,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round3Flag = true;
 
             }
 
@@ -579,15 +596,15 @@ Page({
         }
       }
     }
-    if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+   /** if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
       that.setData({
         gameStatus: 1
       });
       app.globalData.isIntervalStopped = true;
-    }
+    }*/
   },
   ///vote3 按钮
-  votePlay3: function () {
+  votePlay3: function() {
     var that = this;
     if (app.globalData.roundResult.finished == false) {
       that.setData({
@@ -600,16 +617,16 @@ Page({
               title: '确定投票给' + this.data.player3 + '吗？',
               content: 'Confim to vote  ' + this.data.player3_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+              //cancelText: "No", //默认是“取消”
+              //cancelColor: 'skyblue', //取消文字的颜色
+              //confirmText: "Yes", //默认是“确定”
+              //confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player3_en,
                     roundFlag: 1,
@@ -617,12 +634,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag3: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
               wx.request({
@@ -631,7 +648,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player3.userID,
+                  idSelected: this.data.player3ID,
                   state: 3
                 },
 
@@ -640,15 +657,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round1Flag = true;
             }
           }
         }
@@ -667,16 +684,16 @@ Page({
               title: '确定投票给' + this.data.player3 + '吗？',
               content: 'Confim to vote  ' + this.data.player3_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+             // cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+              //confirmText: "Yes", //默认是“确定”
+             // confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player3_en,
                     roundFlag: 1,
@@ -684,12 +701,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag3: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
               wx.request({
@@ -698,7 +715,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player3.userID,
+                  idSelected: this.data.player3ID,
                   state: 4
                 },
 
@@ -707,15 +724,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round2Flag = true;
 
             }
 
@@ -736,16 +753,16 @@ Page({
               title: '确定投票给' + this.data.player3 + '吗？',
               content: 'Confim to vote  ' + this.data.player3_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+             // cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+            //  confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player3_en,
                     roundFlag: 1,
@@ -753,12 +770,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag3: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
               wx.request({
@@ -767,7 +784,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player3.userID,
+                  idSelected: this.data.player3ID,
                   state: 5
                 },
 
@@ -776,15 +793,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round3Flag = true;
 
             }
 
@@ -799,15 +816,15 @@ Page({
         }
       }
     }
-    if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+   /** if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
       that.setData({
         gameStatus: 1
       });
       app.globalData.isIntervalStopped = true;
-    }
+    }*/
   },
   //vote4按钮
-  votePlay4: function () {
+  votePlay4: function() {
     var that = this;
     if (app.globalData.roundResult.finished == false) {
       that.setData({
@@ -820,16 +837,16 @@ Page({
               title: '确定投票给' + this.data.player4 + '吗？',
               content: 'Confim to vote  ' + this.data.player4_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+              //cancelText: "No", //默认是“取消”
+           //   cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+            //  confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player4_en,
                     roundFlag: 1,
@@ -837,12 +854,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag4: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
               wx.request({
@@ -851,7 +868,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player4.userID,
+                  idSelected: this.data.player4ID,
                   state: 3
                 },
 
@@ -860,15 +877,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round1Flag = true;
             }
           }
         }
@@ -887,16 +904,16 @@ Page({
               title: '确定投票给' + this.data.player4 + '吗？',
               content: 'Confim to vote  ' + this.data.player4_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+             // cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+             // confirmText: "Yes", //默认是“确定”
+            //  confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player4_en,
                     roundFlag: 1,
@@ -904,12 +921,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag4: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
               wx.request({
@@ -918,7 +935,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player4.userID,
+                  idSelected: this.data.player4ID,
                   state: 4
                 },
 
@@ -927,15 +944,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round2Flag = true;
 
             }
 
@@ -956,16 +973,16 @@ Page({
               title: '确定投票给' + this.data.player4 + '吗？',
               content: 'Confim to vote  ' + this.data.player4_en + '  ?',
               showCancel: true, //是否显示取消按钮
-              cancelText: "No", //默认是“取消”
-              cancelColor: 'skyblue', //取消文字的颜色
-              confirmText: "Yes", //默认是“确定”
-              confirmColor: 'skyblue', //确定文字的颜色
-              success: function (res) {
+             // cancelText: "No", //默认是“取消”
+             // cancelColor: 'skyblue', //取消文字的颜色
+            //  confirmText: "Yes", //默认是“确定”
+             // confirmColor: 'skyblue', //确定文字的颜色
+              success: function(res) {
                 if (res.cancel) {
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  console.log("确认");
+                  //console.log("确认");
                   that.setData({
                     playerInfo: that.data.player4_en,
                     roundFlag: 1,
@@ -973,12 +990,12 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag4: 1
                   })
-                  console.log(that.data.playerNumber);
+                  //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
               },
-              fail: function (res) { }, //接口调用失败的回调函数
-              complete: function (res) { }, //接口调用结束的回调函数（调用成功、失败都会执行）
+              fail: function(res) {}, //接口调用失败的回调函数
+              complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
             if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
               wx.request({
@@ -987,7 +1004,7 @@ Page({
                 data: {
                   command: 8,
                   userID: app.globalData.playerMe,
-                  IDSelected: this.data.player4.userID,
+                  idSelected: this.data.player4ID,
                   state: 5
                 },
 
@@ -996,15 +1013,15 @@ Page({
                   'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 },
 
-                success: function (res) {
-                  console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  console.log("result: " + res.data.result);
-                  console.log("state: " + res.data.state);
-                  console.log("name: " + res.data.name);
+                success: function(res) {
+                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                  //console.log("result: " + res.data.result);
+                  //console.log("state: " + res.data.state);
+                  //console.log("name: " + res.data.name);
                 },
 
               })
-
+              that.data.round3Flag = true;
 
             }
 
@@ -1019,143 +1036,202 @@ Page({
         }
       }
     }
-    if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
+    /**if (app.globalData.roundResult.finished == true) { ///轮询到游戏已结束，清空所有数据，关闭计时器，锁定投票界面
       that.setData({
         gameStatus: 1
       });
       app.globalData.isIntervalStopped = true;
-    }
+    }*/
   },
-  nextRound: function() {
-    if (this.data.nextRoundLock == 0) {
-      this.setData({
-        roundNumber: this.data.roundNumber + 1,
-        roundFlag: 0,
-        buttonColorFlag1: 0, //投票按钮颜色标志：0代表白色，1代表点击后变灰
-        buttonColorFlag2: 0,
-        buttonColorFlag3: 0,
-        buttonColorFlag4: 0,
-        buttonColorFlag5: 0,
-        voteButtonLock: 0
-      })
-      if (this.data.roundNumber > 3 || app.globalData.roundResult.finished == true) {
-        app.globalData.isIntervalStopped = true;
-        clearInterval(app.globalData.interval);
-        this.setData({
-          gameStatus: 1,
-          voteButtonLock: 1,
-          buttonColorFlag1: 0, //投票按钮颜色标志：0代表白色，1代表点击后变灰
-          buttonColorFlag2: 0,
-          buttonColorFlag3: 0,
-          buttonColorFlag4: 0,
-          buttonColorFlag5: 0,
 
-        })
-        console.log("clear Interval");
-        app.globalData.playerOther1.name = "no name";
-        app.globalData.playerOther1.role = "";
-        app.globalData.playerOther1.card = "";
-        app.globalData.playerOther1.objSelected = "";
-        app.globalData.playerOther1.killed = "";
-        ////////////
-        app.globalData.playerOther2.name = "no name";
-        app.globalData.playerOther2.role = "";
-        app.globalData.playerOther2.card = "";
-        app.globalData.playerOther2.objSelected = "";
-        app.globalData.playerOther2.killed = "";
-        ///////////////
-        app.globalData.playerOther3.name = "no name";
-        app.globalData.playerOther3.role = "";
-        app.globalData.playerOther3.card = "";
-        app.globalData.playerOther3.objSelected = "";
-        app.globalData.playerOther3.killed = "";
-        ///////////////
-        app.globalData.playerOther4.name = "no name";
-        app.globalData.playerOther4.role = "";
-        app.globalData.playerOther4.card = "";
-        app.globalData.playerOther4.objSelected = "";
-        app.globalData.playerOther4.killed = "";
-        ///////////////
-        app.globalData.player1.name = "";
-        app.globalData.player1.role = "";
-        app.globalData.player1.card = "";
-        app.globalData.player1.objSelected = "";
-        app.globalData.player1.killed = "";
-        ////////////////
-        app.globalData.player2.name = "";
-        app.globalData.player2.role = "";
-        app.globalData.player2.card = "";
-        app.globalData.player2.objSelected = "";
-        app.globalData.player2.killed = "";
-        ///////////////
-        app.globalData.player3.name = "";
-        app.globalData.player3.role = "";
-        app.globalData.player3.card = "";
-        app.globalData.player3.objSelected = "";
-        app.globalData.player3.killed = "";
-        ////////////////
-        app.globalData.player4.name = "";
-        app.globalData.player4.role = "";
-        app.globalData.player4.card = "";
-        app.globalData.player4.objSelected = "";
-        app.globalData.player4.killed = "";
-        //////////////
-        app.globalData.player5.name = "";
-        app.globalData.player5.role = "";
-        app.globalData.player5.card = "";
-        app.globalData.player5.objSelected = "";
-        app.globalData.player5.killed = "";
-        //////////////
-        app.globalData.playerMe = "";
-        app.globalData.cardMe = "";
-      }
-      this.onLoad();
-      console.log(this.data.roundNumber);
-    }
-    this.setData({
-      nextRoundLock: 1
-    })
-    /* wx.navigateTo({
-       url: "../vote/vote"
-     })*/
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
+   
+  onShow: function(options) {
     var that = this;
-    that.setData({
-      player1: app.globalData.playerOther1.name,
-      player2: app.globalData.playerOther2.name,
-      player3: app.globalData.playerOther3.name,
-      player4: app.globalData.playerOther4.name,
-      player1_en: app.globalData.playerOther1.englishName,
-      player2_en: app.globalData.playerOther2.englishName,
-      player3_en: app.globalData.playerOther3.englishName,
-      player4_en: app.globalData.playerOther4.englishName,
-      wordShown: app.globalData.cardMe,
-      wordShown_en: app.globalData.cardMe_en
-    });
-    if (app.globalData.playerOther1.killed == "true") {
+    var round2FlashEnd = false;
+    var round3FlashEnd = false;
+    app.globalData.voteInterval = setInterval(function() {
       that.setData({
-        player1Alive: "false"
+        player1: app.globalData.playerOther1.name,
+        player2: app.globalData.playerOther2.name,
+        player3: app.globalData.playerOther3.name,
+        player4: app.globalData.playerOther4.name,
+        player1ID: app.globalData.playerOther1.userID,
+        player2ID: app.globalData.playerOther2.userID,
+        player3ID: app.globalData.playerOther3.userID,
+        player4ID: app.globalData.playerOther4.userID,
+        player1_en: app.globalData.playerOther1.englishName,
+        player2_en: app.globalData.playerOther2.englishName,
+        player3_en: app.globalData.playerOther3.englishName,
+        player4_en: app.globalData.playerOther4.englishName,
+        wordShown: app.globalData.cardMe,
+        wordShown_en: app.globalData.cardMe_en
       });
-    }
-    if (app.globalData.playerOther2.killed == "true") {
-      that.setData({
-        player2Alive: "false"
-      });
-    }
-    if (app.globalData.playerOther3.killed == "true") {
-      that.setData({
-        player3Alive: "false"
-      });
-    }
-    if (app.globalData.playerOther4.killed == "true") {
-      that.setData({
-        player4Alive: "false"
-      });
-    }
+      if (that.data.gameStateTemp != app.globalData.gameState) {//遊戲狀態改變時觸發條件
+        if (app.globalData.gameState == 3 || app.globalData.gameState == 4 || app.globalData.gameState == 5) {
+         // console.log("Game state is "+app.globalData.gameState);
+          //console.log("Temp state is :"+ that.data.gameStateTemp);
+          that.setData({
+            voteButtonLock: 0//解锁按钮
+          });
+        }
+        if (app.globalData.playerOther1.killed == false) {
+          that.setData({
+            buttonColorFlag1: 0
+          });
+
+        }
+        if (app.globalData.playerOther2.killed == false) {
+          that.setData({
+            buttonColorFlag2: 0
+          });
+        }
+        if (app.globalData.playerOther3.killed == false) {
+          that.setData({
+            buttonColorFlag3: 0
+          });
+        }
+        if (app.globalData.playerOther4.killed == false) {
+          that.setData({
+            buttonColorFlag4: 0
+          });
+        }
+
+        that.data.gameStateTemp = app.globalData.gameState;
+      }
+      if (app.globalData.playerMyself.killed == true && that.data.checkPlayerMeAlive == false) {
+        wx.showModal({
+          title: '本轮中您被投票出局',
+          content: 'This round you are killed',
+          showCancel: false,
+        })
+        that.data.checkPlayerMeAlive = true;
+        return;
+      }
+      if (app.globalData.playerOther1.killed == true && that.data.checkPlayer1Alive == false) {
+        that.setData({
+          player1Alive: false
+        });
+        wx.showModal({
+          title: '本轮投票中' + that.data.player1 + '被投票出局',
+          content: 'This round ' + that.data.player1_en + ' is killed',
+          showCancel: false,
+        })
+        that.data.checkPlayer1Alive = true;
+        return;
+      }
+      if (app.globalData.playerOther2.killed == true && that.data.checkPlayer2Alive == false) {
+        that.setData({
+          player2Alive: false
+        })
+        wx.showModal({
+          title: '本轮投票中' + that.data.player2 + '被投票出局',
+          content: 'This round ' + that.data.player2_en + ' is killed',
+          showCancel: false,
+        })
+        that.data.checkPlayer2Alive = true;
+        return;
+      }
+      if (app.globalData.playerOther3.killed == true && that.data.checkPlayer3Alive == false) {
+        that.setData({
+          player3Alive: false
+        });
+        wx.showModal({
+          title: '本轮投票中' + that.data.player3 + '被投票出局',
+          content: 'This round ' + that.data.player3_en + ' is killed',
+          showCancel: false,
+        })
+        that.data.checkPlayer3Alive = true;
+        return;
+      }
+      if (app.globalData.playerOther4.killed == true&& that.data.checkPlayer4Alive == false) {
+        that.setData({
+          player4Alive: false
+        });
+        wx.showModal({
+          title: '本轮投票中' + that.data.player4 + '被投票出局',
+          content: 'This round ' + that.data.player4_en + ' is killed',
+          showCancel: false,
+        })
+        that.data.checkPlayer4Alive=true;
+        return;
+      }
+      if (that.data.round1Flag == true && round2FlashEnd != true ){
+        if (app.globalData.gameState == 4) {
+          that.setData({
+            roundNumber: 2,
+            roundFlag: 0,
+          });
+
+          if (that.data.player1Alive == false) {
+            that.setData({
+              buttonColorFlag1: 1
+            })
+          }
+          if (that.data.player2Alive == false) {
+            that.setData({
+              buttonColorFlag2: 1
+            })
+          }
+          if (that.data.player3Alive == false) {
+            that.setData({
+              buttonColorFlag3: 1
+            })
+          }
+          if (that.data.player4Alive == false) {
+            that.setData({
+              buttonColorFlag4: 1
+            })
+          }
+          round2FlashEnd=true;
+        }
+      }
+      if (that.data.round2Flag == true) {
+        if (app.globalData.gameState == 5) {
+          that.setData({
+            roundNumber: 3,
+            roundFlag: 0,
+          });
+          if (that.data.player1Alive == false) {
+            that.setData({
+              buttonColorFlag1: 1
+            })
+          }
+          if (that.data.player2Alive == false) {
+            that.setData({
+              buttonColorFlag2: 1
+            })
+          }
+          if (that.data.player3Alive == false) {
+            that.setData({
+              buttonColorFlag3: 1
+            })
+          }
+          if (that.data.player4Alive == false) {
+            that.setData({
+              buttonColorFlag4: 1
+            })
+          }
+        }
+      }
+        console.log("winner role before --------------" + app.globalData.roundResult.winnerRole);
+        that.setData({
+          winnerRole: app.globalData.roundResult.winnerRole
+        });
+      console.log("winner role After ++++++++++++" + that.data.winnerRole);
+      if (app.globalData.gameState == 0 || app.globalData.roundResult.finished == true) {
+        that.setData({
+        gameStatus:1,
+        });
+        if(app.globalData.resetGlobalDataFlag==false){
+          //clearInterval(app.globalData.interval);
+          util.resetGlobalData();//重置所有涉及的全局变量
+          app.globalData.isIntervalStopped = true;//關閉計時器的標誌位
+          app.globalData.resetGlobalDataFlag=true;
+          console.log("reset");
+        }
+      }
+
+    }, 500)
   },
 
   /**
@@ -1166,7 +1242,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onLoad: function() {
 
   },
 

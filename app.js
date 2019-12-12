@@ -73,12 +73,25 @@ App({
     boardroomList: [],
     infoCardNumber:1111,//用户信息界面抽到的卡牌（免喝酒之类）,初始1111，不显示任何图片
     isIntervalStopped:false,
-    interval:'',//定义一个全局的定时器
+    interval:'',//轮询服务器状态定时器
+    voteInterval:'',//投票界面轮询状态
     gameState:0,//游戏当前状态
     playerMe:"",//当前用户的ID
-    playerMe_team:"",
+    playerMe_team:404,//初始值为无意义的值
+    resetGlobalDataFlag:false,
     cardMe:"",//当前用户抽到的词条
     cardMe_en:"",
+    playerMyself: {
+      userID: "XXX",
+      name: "no name",
+      englishName: "no English name",
+      role: "",
+      card: "",
+      idSelected: "",
+      objSelected: "",
+      englishObjSelected: "",
+      killed: ""
+    },
     playerOther1: {
       userID:"XXX",
       name: "no name",
@@ -179,10 +192,10 @@ App({
       killed: ""
     },
     roundResult:{
-      nameKilled:"",
+      userIDKilled:"",
       roleKilled:"",
       finished:false,
-      winnerRole:""
+      winnerRole:"none"
     }
   }
 })

@@ -1,8 +1,8 @@
 <view wx:if="{{gameStatus==0}}">
-<view class="showWord">
-  <view class="showWord_Title">您获取的词汇是 : {{wordShown}}</view>
-  <view class="showWord_Title_en">The word for you is : {{wordShown_en}}</view>
-</view>
+  <view class="showWord">
+    <view class="showWord_Title">您获取的词汇是 : {{wordShown}}</view>
+    <view class="showWord_Title_en">The word for you is : {{wordShown_en}}</view>
+  </view>
 </view>
 <view class="Title">
   <view wx:if="{{gameStatus==0}}">
@@ -14,62 +14,60 @@
     </view>
   </view>
   <view wx:if="{{gameStatus==1}}">
-    <view class="RoundNumberOver">Game Over!</view>
+<view class="roundNumberOver">Game over!</view>
+<view class="winnerRole">Winner is {{winnerRole}}!</view>
   </view>
 
 </view>
 
 <view class="voteinfo">
-  <view wx:if="{{buttonColorFlag1==0 && gameStatus==0}}">
-    <view class="vote1">
-      <button bindtap="votePlay1">投票给 Vote to {{player1_en}}</button>
+  <view wx:if="{{gameStatus==0}}">
+    <view wx:if="{{buttonColorFlag1==0 && player1Alive == true}}">
+      <view class="vote1">
+        <button bindtap="votePlay1">投票给 Vote to {{player1_en}}</button>
+      </view>
     </view>
-  </view>
-  <view wx:if="{{buttonColorFlag1==1 && gameStatus==0}}">
-    <view class="vote1_gray">
-      <button bindtap="votePlay1">投票给 Vote to {{player1_en}}</button>
+    <view wx:if="{{buttonColorFlag1==1 || player1Alive == false}}">
+      <view class="vote1_gray">
+        <button disabled="true" bindtap="votePlay1">投票给 Vote to {{player1_en}}</button>
+      </view>
     </view>
-  </view>
-  
-    <view wx:if="{{buttonColorFlag2==0 && gameStatus==0}}">
-    <view class="vote2">
-      <button bindtap="votePlay2">投票给 Vote to {{player2_en}}</button>
-    </view>
-  </view>
-  <view wx:if="{{buttonColorFlag2==1 && gameStatus==0}}">
-    <view class="vote2_gray">
-      <button bindtap="votePlay2">投票给 Vote to {{player2_en}}</button>
-    </view>
-  </view>
-  
-    <view wx:if="{{buttonColorFlag3==0 && gameStatus==0}}">
-    <view class="vote3">
-      <button bindtap="votePlay3">投票给 Vote to {{player3_en}}</button>
-    </view>
-  </view>
-  <view wx:if="{{buttonColorFlag3==1 && gameStatus==0}}">
-    <view class="vote3_gray">
-      <button bindtap="votePlay3">投票给 Vote to {{player3_en}}</button>
-    </view>
-  </view>
-  
-    <view wx:if="{{buttonColorFlag4==0 && gameStatus==0}}">
-    <view class="vote4">
-      <button bindtap="votePlay4">投票给 Vote to {{player4_en}}</button>
-    </view>
-  </view>
-  <view wx:if="{{buttonColorFlag4==1 && gameStatus==0}}">
-    <view class="vote4_gray">
-      <button bindtap="votePlay4">投票给 Vote to {{player4_en}}</button>
-    </view>
-  </view>
-  
-</view>
 
-<view class="nextRound">
-  <view class="ButtonNext" wx:if="{{gameStatus==0}}">
-    <button bindtap="nextRound">进入下一轮Next Round</button>
+    <view wx:if="{{buttonColorFlag2==0 && player2Alive == true}}">
+      <view class="vote2">
+        <button bindtap="votePlay2">投票给 Vote to {{player2_en}}</button>
+      </view>
+    </view>
+    <view wx:if="{{buttonColorFlag2==1 || player2Alive == false}}">
+      <view class="vote2_gray">
+        <button disabled="true" bindtap="votePlay2">投票给 Vote to {{player2_en}}</button>
+      </view>
+    </view>
+
+    <view wx:if="{{buttonColorFlag3==0 && player3Alive == true}}">
+      <view class="vote3">
+        <button bindtap="votePlay3">投票给 Vote to {{player3_en}}</button>
+      </view>
+    </view>
+    <view wx:if="{{buttonColorFlag3==1 || player3Alive == false}}">
+      <view class="vote3_gray">
+        <button disabled="true" bindtap="votePlay3">投票给 Vote to {{player3_en}}</button>
+      </view>
+    </view>
+
+    <view wx:if="{{buttonColorFlag4==0 && player4Alive == true }}">
+      <view class="vote4">
+        <button bindtap="votePlay4">投票给 Vote to {{player4_en}}</button>
+      </view>
+    </view>
+    <view wx:if="{{buttonColorFlag4==1 || player4Alive == false}}">
+      <view class="vote4_gray">
+        <button disabled="true" bindtap="votePlay4">投票给 Vote to {{player4_en}}</button>
+      </view>
+    </view>
   </view>
+</view>
+<view class="nextRound">
   <view class="ButtonExit" wx:if="{{gameStatus==1}}">
     <button bindtap="backToMenu">退出Exit</button>
   </view>

@@ -1,29 +1,35 @@
-<view class='content'>
-  <view class="showHongbao">
-    <view class='hb_head' style='border-radius: {{hb_head_radius}}rpx {{hb_head_radius}}rpx 0 0;'></view>
-    <view class='hb_body' style='top:{{hb_body_top}}rpx;border-radius: {{hb_body_radius_shang}}rpx {{hb_body_radius_shang}}rpx {{hb_body_radius_xia}}rpx {{hb_body_radius_xia}}rpx;z-index: {{hb_body_zindex}};'></view>
-    <view class='hb_open' style='top:{{hd_open_top}}rpx;' bindtap='openHongbao' wx:if="{{show_open}}">
-      <text>Open</text>
-    </view>
-    <view wx:if="{{cardNumber==1}}">
-      <view class='hb_money' style='top:{{hb_money_top}}rpx;'>
-        <image class="avoidDrinkOnce" src="../../images/avoidDrinkOnce.png"></image>
-      </view>
-    </view>
-    <view wx:if="{{cardNumber==2}}">
-      <view class='hb_money' style='top:{{hb_money_top}}rpx;'>
-        <image class="avoidDrinkOnce" src="../../images/otherOneDrink.png"></image>
-      </view>
-    </view>
-    <view wx:if="{{cardNumber==3}}">
-      <view class='hb_money' style='top:{{hb_money_top}}rpx;'>
-        <image class="avoidDrinkOnce" src="../../images/otherOptions.png"></image>
-      </view>
-    </view>
-    <view class='hb_foot'></view>
+<view wx:if="{{team==0}}" class='teamInfo'>
+  <image mode='widthFix' style='width:48%' src='/images/redTeam.png'></image>
+</view>
+<view wx:if="{{team==1}}" class='teamInfo'>
+  <image mode='widthFix' style='width:48%' src='/images/blackTeam.png'></image>
+</view>
+<view class='getCard' bindtap='rotateFn'>
+  <!--正面的框  -->
+  <view class='frame {{class1}}'>
+    <image mode='widthFix' style='width:90%' src='/images/cardBack.png'></image>
+  </view>
+  <!--背面的框 -->
+  <view wx:if="{{wordChoose=='card1'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:90%' src='/images/card1.png'></image>
+  </view>
+  <view wx:if="{{wordChoose=='card2'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:90%' src='/images/card2.png'></image>
+  </view>
+  <view wx:if="{{wordChoose=='card3'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:90%' src='/images/card3.png'></image>
+  </view>
+  <view wx:if="{{wordChoose=='card4'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:90%' src='/images/card4.png'></image>
+  </view>
+  <view wx:if="{{wordChoose=='card5'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:90%' src='/images/card5.png'></image>
+  </view>
+  <view wx:if="{{wordChoose=='card6'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:90%' src='/images/card6.png'></image>
+  </view>
 
 </view>
-    <view class="backToMain">
-        <button bindtap="backToMain">返回Return</button>
-    </view>
-  </view>
+<view class="vote">
+  <button bindtap="backToMain">返回Return</button>
+</view>

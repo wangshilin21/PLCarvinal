@@ -69,10 +69,10 @@ Page({
             app.globalData.player5.objSelected = res.data.playerList[4].objSelected;
             app.globalData.player5.killed = res.data.playerList[4].killed;
             //roundResult
-            //app.globalData.roundResult.nameKilled = res.data.roundResult.nameKilled;
-            //app.globalData.roundResult.roleKilled = res.data.roundResult.role;
-            //app.globalData.roundResult.finished = res.data.roundResult.finished;
-            //app.globalData.roundResult.winnerRole = res.data.roundResult.winnerRole;
+            app.globalData.roundResult.userIDKilled = res.data.roundResult.userIDKilled;
+            app.globalData.roundResult.roleKilled = res.data.roundResult.role;
+            app.globalData.roundResult.finished = res.data.roundResult.finished;
+            app.globalData.roundResult.winnerRole = res.data.roundResult.winnerRole;
           }
           console.log("global_player1_name:" + app.globalData.player1.name);
           console.log("global_player2_name:" + app.globalData.player2.name);

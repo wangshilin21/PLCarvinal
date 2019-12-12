@@ -44,10 +44,17 @@ color:rgb(131, 70, 1);
 font-size: 150;
 font-weight: 700;
 }
-.RoundNumberOver{
+.roundNumberOver{
 color:rgb(207, 4, 4);
 justify-content: center;
 font-size: 100rpx;
+font-weight: 900;
+}
+.winnerRole{
+color:rgb(207, 4, 4);
+justify-content: center;
+align-content: center;
+font-size: 50rpx;
 font-weight: 900;
 }
 .voteinfo{
@@ -59,16 +66,18 @@ font-weight: 900;
 
 .vote1_gray{
   display:flex;
-   justify-content: center;
-   padding-top: 45rpx;
+  disabled:true;
+  justify-content: center;
+  padding-top: 45rpx;
 
 }
 .vote1_gray button{
-    width:80%;
-   height:80%; 
-   background: lightgray;
-   color:	rgb(110, 110, 110);
-    font-size: 36rpx;
+  disabled:true;
+  width:80%;
+  height:80%; 
+  background: lightgray;
+  color:	rgb(110, 110, 110);
+  font-size: 36rpx;
   line-height: 80rpx;
   border-radius: 80rpx;
   /*color: #fff;*/

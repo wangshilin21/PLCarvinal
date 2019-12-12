@@ -1,0 +1,21 @@
+<view class='getCard' bindtap='rotateFn'>
+  <!--正面的框  -->
+  <view class='frame {{class1}}'>
+    <image mode='widthFix' style='width:85%' src='/images/teamBack.png'></image>
+  </view>
+  <!--背面的框 -->
+  <view wx:if="{{wordChoose=='red'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:85%' src='/images/redA.png'></image>
+  </view>
+  <view wx:if="{{wordChoose=='black'}}" class='frame {{class2}}'>
+    <image mode='widthFix' style='width:85%' src='/images/blackA.png'></image>
+  </view>
+</view>
+
+<view class="getCard_info">
+  <image mode='widthFix' style='width:85%' src='/images/teaminfo.png'></image>
+</view>
+
+<view class="vote">
+  <button bindtap="voteXman">返回Return</button>
+</view>

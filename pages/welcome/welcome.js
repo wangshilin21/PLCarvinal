@@ -1,4 +1,5 @@
 var app = getApp();
+var util = require('../../utils/util.js');
 Page({
   data:{
   id_input:"",
@@ -15,6 +16,11 @@ Page({
       id_input: e.detail.value
     })
 
+  },
+  signinUserPage00: function (e) {
+    wx.navigateTo({
+      url: '../team/team',
+    })
   },
   signinUserPage: function (e) {
     var that = this;
@@ -56,8 +62,11 @@ Page({
               joinState: 1
             });
             that.onLoad();
-            wx.switchTab({
+            /**wx.switchTab({
               url: "../user/user"
+            })*/
+            wx.navigateTo({
+              url: '../team/team',
             })
           }, 2000)
  

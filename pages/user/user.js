@@ -1,5 +1,5 @@
 const Xman = require('../../service/xman.js')
-const app = getApp()
+var app = getApp();
 Page({
   data: {
     hd_open_top: 290,
@@ -11,80 +11,116 @@ Page({
     hb_money_top: 240,
     hb_body_zindex: 4,
     textRandom_cal: 0,
-    cardNumber: 0
+    cardNumber: 0,
+    tips: '设置游戏',
+    xman: null,
+    gameStatus: 0,
+    playerNumber: 8,
+    blankNumber: 0,
+    xmanNumber: 1,
+    cards: [],
+    currentPlayer: 0,
+    result: '游戏进行中',
+    class1: 'z1', //默认正面在上面
+    class2: 'z2',
+    wordChoose: '',
+    team:111//初始值为无意义的值
   },
-  openHongbao: function() {
-    var hd_open_top = this.data.hd_open_top;
-    var hb_body_top = this.data.hb_body_top;
-    var hb_body_radius_shang = this.data.hb_body_radius_shang;
-    var hb_body_radius_xia = this.data.hb_body_radius_xia;
-    var hb_money_top = this.data.hb_money_top;
-    var that = this;
-    if (hd_open_top < 360) {
-      var timerTem = setTimeout(function() {
-        hd_open_top = hd_open_top + 10;
-        that.setData({
-          hd_open_top: hd_open_top
-        })
-        that.openHongbao()
-      }, 20)
-    } else if (hb_body_top > 0) {
-      var timerTem = setTimeout(function() {
-        hb_body_top = hb_body_top - 20;
-        hb_body_radius_xia = hb_body_radius_xia - 10;
-        hb_body_radius_shang = hb_body_radius_shang + 10;
-        that.setData({
-          hb_body_top: hb_body_top,
-          show_open: false,
-          hb_head_radius: 0,
-          hb_body_radius_xia: hb_body_radius_xia,
-          hb_body_radius_shang: hb_body_radius_shang
-        })
-        that.openHongbao()
-      }, 20)
-    } else if (hb_money_top > 10) {
-      var timerTem = setTimeout(function() {
-        hb_money_top = hb_money_top - 2;
-        that.setData({
-          hb_money_top: hb_money_top,
-          hb_body_zindex: 1
-        })
-        that.openHongbao()
-      }, 20)
-    }
-  },
-
   backToMain: function (e) {
     console.log("note1");
+    console.log("Global team flag is " + app.globalData.playerMe_team);
     wx.switchTab({
       url: "../main/main"
     })
   },
+  rotateFn: function (e) {
+    let data = this.data;
+    var that = this;
+    var that=this;
+    if (data.class1 == 'z1' && data.class2 == 'z2') {
+      this.run('front', 'back', 'z2', 'z1');
 
-  onLoad() {
-    if (app.globalData.infoCardNumber == 1111) {
+    } else {
+      this.run('back', 'front', 'z1', 'z2');
+    }
+  },
+
+  run: function (a, b, c, d) {
+    let that = this;
+    that.setData({
+      class1: a,
+      class2: b,
+    })
+    setTimeout(function () {
+      that.setData({
+        class1: c,
+        class2: d,
+      })
+    }, 1000);
+  },
+  onShow() {
+    var that=this;
+    var funcCard=0;
+
+    that.setData({
+      team: app.globalData.playerMe_team
+    });
+    if(that.data.team!=404){
+      wx.setStorageSync('teamNumber', that.data.team);
+    }
+    if (wx.getStorageSync('teamNumber')) {
+      that.data.team = wx.getStorageSync('teamNumber');
+      that.setData({
+        team: wx.getStorageSync('teamNumber')
+      });
+    }
+    //that.data.team = app.globalData.playerMe_team;
+    console.log("Before----------"+funcCard);
+    if (wx.getStorageSync('functionCard')){
+    funcCard = wx.getStorageSync('functionCard');
+    }
+    console.log("After+++++++" + funcCard);
+    if (funcCard != 1 && funcCard != 2 && funcCard != 3 && funcCard != 4 && funcCard != 5 && funcCard != 6) {
       //只有首次开卡的时候会生成随机数并赋值
       this.data.textRandom_cal = Math.floor(Math.random() * 100 + 1);
-      console.log("random number is " + this.data.textRandom_cal);
-      app.globalData.infoCardNumber = this.data.textRandom_cal % 3 + 1;
+     // console.log("random number is " + this.data.textRandom_cal);
+      funcCard = this.data.textRandom_cal % 6 + 1;
+      wx.setStorageSync('functionCard', funcCard);
     }
-    console.log("CARD NUMBER IS ---" + app.globalData.infoCardNumber);
-    if (app.globalData.infoCardNumber == 1) {
+    if (funcCard == 1) {
       this.setData({
-        cardNumber: 1
+        wordChoose:'card1'
       });
     }
-    if (app.globalData.infoCardNumber == 2) {
+    if (funcCard  == 2) {
       this.setData({
-        cardNumber: 2
+        wordChoose: 'card2'
       });
     }
-    if (app.globalData.infoCardNumber == 3 ) {
+    if (funcCard  == 3 ) {
       this.setData({
-        cardNumber: 3
+        wordChoose: 'card3'
       });
     }
-
+    if (funcCard  == 4) {
+      this.setData({
+        wordChoose: 'card4'
+      });
+    }
+    if (funcCard  == 5) {
+      this.setData({
+        wordChoose: 'card5'
+      });
+    }
+    if (funcCard  == 6) {
+      this.setData({
+        wordChoose: 'card6'
+      });
+    }
+    that.onLoad();
     // 生命周期函数--监听页面加载
   },
+  onLoad(){
+
+  }
 })

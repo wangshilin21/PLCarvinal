@@ -1,98 +1,4 @@
-.showHongbao {
-  position: absolute;
-  width: 480rpx;
-  height: 680rpx;
-  margin-top:200rpx;
-  margin-left:125rpx;
-  background: rgb(173, 173, 175);
-}
-
-.hb_foot {
-  position: absolute;
-  top: 280rpx;
-  width: 480rpx;
-  height: 400rpx;
-  background: #cd0000;
-  border-radius: 0 0 30rpx 30rpx;
-  z-index: 3;
-}
-.background-image1{
-    height : 100%;
-    position: fixed;
-    width: 105%;
-    left: 0px;
-    top: 0px;
-}
-.background-image2{
-   height : 100%;
-    position: absolute;
-    width: 100%;
-    padding-left: 5px;
-    padding-right:5px;
-    padding-top: 0px;
-}
-.hb_head {
-  position: absolute;
-  top: 120rpx;
-  width: 480rpx;
-  height: 170rpx;
-  background: red;
-  z-index: 1;
-}
-
-.hb_body {
-  position: absolute;
-  top: 240rpx;
-  width: 480rpx;
-  height: 150rpx;
-  background: red;
-}
-
-.hb_open {
-  position: absolute;
-  z-index: 5;
-  background: #ee0;
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50rpx;
-  left: 180rpx;
-  line-height: 100rpx;
-  text-align: center;
-  color: #a6a6a6;
-}
-
-.hb_money {
-  position: absolute;
-  left: 50rpx;
-  width: 360rpx;
-  height: 360rpx;
-  background: white;
-  z-index: 2;
-  text-align: center;
-  line-height: 100rpx;
-}
-
-.avoidDrinkOnce {
-  width: 100%;
-  height: 100%;
-}
-.backToMain{
-  display: flex;
-  padding-top: 60rpx;
-  justify-content: center;
-  align-content: center;
-}
-.backToMain button {
-  width: 300rpx;
-  height: 80rpx;
-  font-size: 36rpx;
-  line-height: 80rpx;
-  border-radius: 80rpx;
-  /*color: #fff;*/
-  color: #1e5adb;
-  background: #fff;
-  border: solid 1rpx #2947f1;
-}
+/* pages/team/team.wxss */
 /* pages/init/init.wxss */
 
 /* Gold #fdb64a */
@@ -267,14 +173,13 @@ page {
 .frame {
   position: absolute;
   display: flex;
-  padding-top: 2rpx;
   justify-content: center;
   height: 57%;
-  width: 75%;
+  width: 100%;
 }
 
 .frame image {
-  height:100%;
+  height: 100%;
   width: 100%;
   border-radius: 8px;
 }
@@ -317,8 +222,9 @@ page {
 }
 .vote {
   display: block;
-  padding-top: 873rpx;
+  padding-top: 30rpx;
 }
+
 .vote button {
   width: 300rpx;
   height: 80rpx;
@@ -326,13 +232,7 @@ page {
   line-height: 80rpx;
   border-radius: 80rpx;
   /*color: #fff;*/
-  color: #bb0202; 
+  color: #1e5adb; 
   background: #fff;
-  border: solid 3rpx #bb0202;
-}
-.teamInfo{
-  display: flex;
-  justify-content: center;
-  padding-top: 2rpx;
-  width:100%;
+  border: solid 1rpx #2947f1;
 }
