@@ -1,6 +1,5 @@
 // pages/init/init.js
 var app = getApp();
-const Xman = require('../../service/xman.js')
 Page({
 
   /**

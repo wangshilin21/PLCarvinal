@@ -1,5 +1,4 @@
 // pages/init/init.js
-const Xman = require('../../service/xman.js')
 var util = require('../../utils/util.js');
 const app = getApp()
 Page({
@@ -16,7 +15,6 @@ Page({
     cards: [],
     currentPlayer: 0,
     result: '游戏进行中',
-
     roundNumber: 1, //投票轮数
     round1Flag:false,//判断第一轮是否已经投过票
     round2Flag:false,//判断第二轮是否已经投过票
@@ -56,6 +54,8 @@ Page({
     player3Alive: true,
     player4Alive: true,
     player5Alive: true,
+    navigateToMain: false,
+    wordHasGotten: false,
     winnerRole:"",
     voteButtonLock: 0, //初始状态下，投票按钮无锁。0代表无锁，1代表上锁。作用：投票一次后，锁定投票按钮无法再投。进入下一轮后解锁。
     nextRoundLock: 1 //初始状态下，进入下一轮按钮上锁。0代表无锁，1代表上锁。作用：只有投票后才允许进入下一轮。
@@ -85,7 +85,7 @@ Page({
   },
   initXman: function(e) {
     this.setData({
-      xman: new Xman()
+      //xman: new Xman()
     })
     let mdata = {
       playerNumber: this.data.playerNumber,
@@ -157,6 +157,8 @@ Page({
   },
   backToMenu: function() {
     //console.log("exit");
+    util.resetGlobalData();//重置所有涉及的全局变量
+//    app.globalData.isIntervalStopped = true;//關閉計時器的標誌
     wx.switchTab({
       url: "../main/main"
     })
@@ -184,7 +186,32 @@ Page({
                   //点击取消,默认隐藏弹框
                 } else {
                   //点击确定
-                  //console.log("确认");
+                  if (that.data.roundNumber == 1 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player1ID,
+                        state: 3
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round1Flag = true;
+                  }
                   that.setData({
                     playerInfo: that.data.player1_en,
                     roundFlag: 1,
@@ -192,39 +219,13 @@ Page({
                     nextRoundLock: 0,
                     buttonColorFlag1: 1
                   })
-                  //console.log(that.data.playerNumber);
+                  console.log("2222");
                   that.onLoad();
                 }
               },
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player1ID,
-                  state: 3
-                },
-
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round1Flag=true;
-            }
           }
         }
 
@@ -253,6 +254,33 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 2 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player1ID,
+                        state: 4
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round2Flag = true;
+
+                  }
                   that.setData({
                     playerInfo: that.data.player1_en,
                     roundFlag: 1,
@@ -267,33 +295,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player1ID,
-                  state: 4
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round2Flag = true;
-
-            }
 
           }
         }
@@ -322,6 +324,34 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 3 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player1ID,
+                        state: 5
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round3Flag = true;
+
+                  }
+
                   that.setData({
                     playerInfo: that.data.player1_en,
                     roundFlag: 1,
@@ -336,33 +366,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player1ID,
-                  state: 5
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round3Flag = true;
-
-            }
 
           }
         }
@@ -407,6 +411,33 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 1 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player2ID,
+                        state: 3
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round1Flag = true;
+                  }
+
                   that.setData({
                     playerInfo: that.data.player2_en,
                     roundFlag: 1,
@@ -421,32 +452,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player2ID,
-                  state: 3
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round1Flag = true;
-            }
           }
         }
         if (app.globalData.gameState != 3) {
@@ -474,6 +480,34 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 2 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player2ID,
+                        state: 4
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round2Flag = true;
+
+                  }
+
                   that.setData({
                     playerInfo: that.data.player2_en,
                     roundFlag: 1,
@@ -488,33 +522,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player2ID,
-                  state: 4
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round2Flag = true;
-
-            }
 
           }
         }
@@ -543,6 +551,34 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 3 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player2ID,
+                        state: 5
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round3Flag = true;
+
+                  }
+
                   that.setData({
                     playerInfo: that.data.player2_en,
                     roundFlag: 1,
@@ -557,33 +593,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player2ID,
-                  state: 5
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round3Flag = true;
-
-            }
 
           }
         }
@@ -627,6 +637,33 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 1 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player3ID,
+                        state: 3
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round1Flag = true;
+                  }
+
                   that.setData({
                     playerInfo: that.data.player3_en,
                     roundFlag: 1,
@@ -641,32 +678,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player3ID,
-                  state: 3
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round1Flag = true;
-            }
           }
         }
         if (app.globalData.gameState != 3) {
@@ -694,6 +706,34 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 2 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player3ID,
+                        state: 4
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round2Flag = true;
+
+                  }
+
                   that.setData({
                     playerInfo: that.data.player3_en,
                     roundFlag: 1,
@@ -708,33 +748,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player3ID,
-                  state: 4
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round2Flag = true;
-
-            }
 
           }
         }
@@ -763,6 +777,34 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 3 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player3ID,
+                        state: 5
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round3Flag = true;
+
+                  }
+
                   that.setData({
                     playerInfo: that.data.player3_en,
                     roundFlag: 1,
@@ -777,33 +819,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player3ID,
-                  state: 5
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round3Flag = true;
-
-            }
 
           }
         }
@@ -847,6 +863,33 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 1 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player4ID,
+                        state: 3
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round1Flag = true;
+                  }
+
                   that.setData({
                     playerInfo: that.data.player4_en,
                     roundFlag: 1,
@@ -861,32 +904,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 1 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player4ID,
-                  state: 3
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-FIRST ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round1Flag = true;
-            }
           }
         }
         if (app.globalData.gameState != 3) {
@@ -914,6 +932,33 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 2 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player4ID,
+                        state: 4
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round2Flag = true;
+
+                  }
                   that.setData({
                     playerInfo: that.data.player4_en,
                     roundFlag: 1,
@@ -928,33 +973,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 2 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player4ID,
-                  state: 4
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-SECOND ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round2Flag = true;
-
-            }
 
           }
         }
@@ -983,6 +1002,34 @@ Page({
                 } else {
                   //点击确定
                   //console.log("确认");
+                  if (that.data.roundNumber == 3 && app.globalData.gameState != 0) {
+                    wx.request({
+                      url: 'https://pleeprogram.com/GameSys/molegamewechat',
+                      //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
+                      data: {
+                        command: 8,
+                        userID: app.globalData.playerMe,
+                        idSelected: that.data.player4ID,
+                        state: 5
+                      },
+
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                      },
+
+                      success: function (res) {
+                        //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
+                        //console.log("result: " + res.data.result);
+                        //console.log("state: " + res.data.state);
+                        //console.log("name: " + res.data.name);
+                      },
+
+                    })
+                    that.data.round3Flag = true;
+
+                  }
+
                   that.setData({
                     playerInfo: that.data.player4_en,
                     roundFlag: 1,
@@ -997,33 +1044,7 @@ Page({
               fail: function(res) {}, //接口调用失败的回调函数
               complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
             })
-            if (this.data.roundNumber == 3 && app.globalData.gameState != 0) {
-              wx.request({
-                url: 'https://pleeprogram.com/GameSys/molegamewechat',
-                //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',
-                data: {
-                  command: 8,
-                  userID: app.globalData.playerMe,
-                  idSelected: this.data.player4ID,
-                  state: 5
-                },
 
-                method: 'GET',
-                header: {
-                  'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-
-                success: function(res) {
-                  //console.log("+-+-+-+-+-THIRD ROUND-+-+-+-+-+-+-+");
-                  //console.log("result: " + res.data.result);
-                  //console.log("state: " + res.data.state);
-                  //console.log("name: " + res.data.name);
-                },
-
-              })
-              that.data.round3Flag = true;
-
-            }
 
           }
         }
@@ -1049,6 +1070,229 @@ Page({
     var that = this;
     var round2FlashEnd = false;
     var round3FlashEnd = false;
+      console.log("-=-=-=-=-=-=-=-=已成功啟動On Show 函數-=-=-=-=-===-VOTE界面");
+      var logLock1 = false; ///避免輪詢下多次打Log
+      var logLock2 = false;
+      var logLock3 = false;
+      var logLock4 = false;
+      //console.log("Cache data is "+ userText);
+      app.globalData.interval2 = setInterval(function () {
+        if (app.globalData.interval2 == 0){return};
+        console.log("已進入計時器---VOTE");
+        if (app.globalData.gameState != 0) {
+        wx.request({
+          url: 'https://pleeprogram.com/GameSys/molegamewechat',
+          data: {
+            command: 9,
+          },
+          method: 'GET',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+          success: function (res) {
+            //state
+            app.globalData.gameState = res.data.state;
+            if (app.globalData.gameState == 0) {
+              util.resetGlobalData(); //重置所有涉及的全局变量
+              if (that.data.navigateToMain == false) {
+                wx.switchTab({
+                  url: '../main/main'
+                })
+                that.data.navigateToMain = true;
+              }
+              if (logLock1 == false) {
+                //console.log("When GlobalData.gameState is 0,res.data.state is =====" + res.data.state);
+                logLock1 == true;
+              }
+            }
+            if (app.globalData.gameState != 0) {
+              if (logLock2 == false) {
+                // console.log("+++Game State is+++   " + app.globalData.gameState);
+                logLock2 == true;
+              }
+            }
+            if (logLock3 == false) {
+              //console.log("在gameState判斷之前！！！！！！！！");
+              logLock3 == true;
+            }
+            if (app.globalData.gameState != 0) {
+              if (res.data.playerList.length >= 1) {
+                app.globalData.player1.userID = res.data.playerList[0].userID;
+                app.globalData.player1.name = res.data.playerList[0].name;
+                app.globalData.player1.englishName = res.data.playerList[0].englishName;
+                app.globalData.player1.role = res.data.playerList[0].role;
+                app.globalData.player1.card = res.data.playerList[0].card;
+                app.globalData.player1.englishCard = res.data.playerList[0].englishCard;
+                app.globalData.player1.objSelected = res.data.playerList[0].objSelected;
+                app.globalData.player1.englishObjSelected = res.data.playerList[0].englishObjSelected;
+                app.globalData.player1.idSelected = res.data.playerList[0].idSelected;
+                app.globalData.player1.killed = res.data.playerList[0].killed;
+              }
+              if (res.data.playerList.length >= 2) {
+                app.globalData.player2.userID = res.data.playerList[1].userID;
+                app.globalData.player2.name = res.data.playerList[1].name;
+                app.globalData.player2.englishName = res.data.playerList[1].englishName;
+                app.globalData.player2.englishCard = res.data.playerList[1].englishCard;
+                app.globalData.player2.role = res.data.playerList[1].role;
+                app.globalData.player2.card = res.data.playerList[1].card;
+                app.globalData.player2.objSelected = res.data.playerList[1].objSelected;
+                app.globalData.player2.englishObjSelected = res.data.playerList[1].englishObjSelected;
+                app.globalData.player2.idSelected = res.data.playerList[1].idSelected;
+                app.globalData.player2.killed = res.data.playerList[1].killed;
+              }
+              if (res.data.playerList.length >= 3) {
+                //Player3
+                app.globalData.player3.userID = res.data.playerList[2].userID;
+                app.globalData.player3.name = res.data.playerList[2].name;
+                app.globalData.player3.englishName = res.data.playerList[2].englishName;
+                app.globalData.player3.englishCard = res.data.playerList[2].englishCard;
+                app.globalData.player3.role = res.data.playerList[2].role;
+                app.globalData.player3.card = res.data.playerList[2].card;
+                app.globalData.player3.objSelected = res.data.playerList[2].objSelected;
+                app.globalData.player3.englishObjSelected = res.data.playerList[2].englishObjSelected;
+                app.globalData.player3.idSelected = res.data.playerList[2].idSelected;
+                app.globalData.player3.killed = res.data.playerList[2].killed;
+              }
+              if (res.data.playerList.length >= 4) {
+                //Player4
+                app.globalData.player4.userID = res.data.playerList[3].userID;
+                app.globalData.player4.name = res.data.playerList[3].name;
+                app.globalData.player4.englishName = res.data.playerList[3].englishName;
+                app.globalData.player4.englishCard = res.data.playerList[3].englishCard;
+                app.globalData.player4.role = res.data.playerList[3].role;
+                app.globalData.player4.card = res.data.playerList[3].card;
+                app.globalData.player4.objSelected = res.data.playerList[3].objSelected;
+                app.globalData.player4.englishObjSelected = res.data.playerList[3].englishObjSelected;
+                app.globalData.player4.idSelected = res.data.playerList[3].idSelected;
+                app.globalData.player4.killed = res.data.playerList[3].killed;
+              }
+              if (res.data.playerList.length >= 5) {
+                //Player5
+                app.globalData.player5.userID = res.data.playerList[4].userID;
+                app.globalData.player5.name = res.data.playerList[4].name;
+                app.globalData.player5.englishName = res.data.playerList[4].englishName;
+                app.globalData.player5.englishCard = res.data.playerList[4].englishCard;
+                app.globalData.player5.role = res.data.playerList[4].role;
+                app.globalData.player5.card = res.data.playerList[4].card;
+                app.globalData.player5.objSelected = res.data.playerList[4].objSelected;
+                app.globalData.player5.englishObjSelected = res.data.playerList[4].englishObjSelected;
+                app.globalData.player5.idSelected = res.data.playerList[4].idSelected;
+                app.globalData.player5.killed = res.data.playerList[4].killed;
+              }
+              //roundResult
+
+              if (app.globalData.gameState == 3 || app.globalData.gameState == 4 || app.globalData.gameState == 5) {
+                app.globalData.roundResult.finished = res.data.roundResult.finished;
+                app.globalData.roundResult.userIDKilled = res.data.roundResult.userIDKilled;
+                app.globalData.roundResult.roleKilled = res.data.roundResult.role;
+                app.globalData.roundResult.winnerRole = res.data.roundResult.winnerRole;
+                //console.log("Winner role is " + app.globalData.roundResult.winnerRole);
+              }
+
+              //console.log("global_player1_name:" + app.globalData.player1.name);
+              //console.log("global_player2_name:" + app.globalData.player2.name);
+              //console.log("global_player3_name:" + app.globalData.player3.name);
+              //console.log("global_player4_name:" + app.globalData.player4.name);
+              //console.log("global_player5_name:" + app.globalData.player5.name);
+              if (logLock3 == false) {
+                // console.log("在gameState判斷之后-------------------");
+                logLock3 == true;
+              }
+              if (app.globalData.player1.userID == app.globalData.playerMe) {
+                app.globalData.playerOther1 = app.globalData.player2;
+                app.globalData.playerOther2 = app.globalData.player3;
+                app.globalData.playerOther3 = app.globalData.player4;
+                app.globalData.playerOther4 = app.globalData.player5;
+                app.globalData.playerMyself = app.globalData.player1;
+                app.globalData.cardMe = app.globalData.player1.card;
+                app.globalData.cardMe_en = app.globalData.player1.englishCard;
+
+              }
+              if (app.globalData.playerMe == app.globalData.player2.userID) {
+                app.globalData.playerOther1 = app.globalData.player1;
+                app.globalData.playerOther2 = app.globalData.player3;
+                app.globalData.playerOther3 = app.globalData.player4;
+                app.globalData.playerOther4 = app.globalData.player5;
+                app.globalData.playerMyself = app.globalData.player2;
+                app.globalData.cardMe = app.globalData.player2.card;
+                app.globalData.cardMe_en = app.globalData.player2.englishCard;
+              }
+              if (app.globalData.playerMe == app.globalData.player3.userID) {
+                app.globalData.playerOther1 = app.globalData.player1;
+                app.globalData.playerOther2 = app.globalData.player2;
+                app.globalData.playerOther3 = app.globalData.player4;
+                app.globalData.playerOther4 = app.globalData.player5;
+                app.globalData.playerMyself = app.globalData.player3;
+                app.globalData.cardMe = app.globalData.player3.card;
+                app.globalData.cardMe_en = app.globalData.player3.englishCard;
+              }
+              if (app.globalData.playerMe == app.globalData.player4.userID) {
+                app.globalData.playerOther1 = app.globalData.player1;
+                app.globalData.playerOther2 = app.globalData.player2;
+                app.globalData.playerOther3 = app.globalData.player3;
+                app.globalData.playerOther4 = app.globalData.player5;
+                app.globalData.playerMyself = app.globalData.player4;
+                app.globalData.cardMe = app.globalData.player4.card;
+                app.globalData.cardMe_en = app.globalData.player4.englishCard;
+              }
+              if (app.globalData.playerMe == app.globalData.player5.userID) {
+                app.globalData.playerOther1 = app.globalData.player1;
+                app.globalData.playerOther2 = app.globalData.player2;
+                app.globalData.playerOther3 = app.globalData.player3;
+                app.globalData.playerOther4 = app.globalData.player4;
+                app.globalData.playerMyself = app.globalData.player5;
+                app.globalData.cardMe = app.globalData.player5.card;
+                app.globalData.cardMe_en = app.globalData.player5.englishCard;
+              }
+              if (app.globalData.cardMe.length > 0) {
+                that.data.wordHasGotten = true;
+                that.setData({
+                  wordHasGotten: true
+                });
+                //console.log("Word for Me is ::" + app.globalData.cardMe);
+                //console.log("English Word is " + app.globalData.cardMe_en);
+              }
+
+              //console.log("other_player1 : " + app.globalData.playerOther1.name);
+              //console.log("other_player2 : " + app.globalData.playerOther2.name);
+              //console.log("other_player3 : " + app.globalData.playerOther3.name);
+              //console.log("other_player4 : " + app.globalData.playerOther4.name);
+              if (app.globalData.playerOther1.userID != "XXX" && app.globalData.playerOther1.userID != "") {
+                that.setData({
+                  playerOther1_flag: true,
+                  playerOther1_name: app.globalData.playerOther1.englishName,
+                  playerNumber: 2
+                });
+              }
+              if (app.globalData.playerOther2.userID != "XXX" && app.globalData.playerOther2.userID != "") {
+                that.setData({
+                  playerNumber: 3,
+                  playerOther2_name: app.globalData.playerOther2.englishName,
+                  playerOther2_flag: true
+                });
+              }
+              if (app.globalData.playerOther3.userID != "XXX" && app.globalData.playerOther3.userID != "") {
+                that.setData({
+                  playerOther3_name: app.globalData.playerOther3.englishName,
+                  playerNumber: 4,
+                  playerOther3_flag: true
+                });
+              }
+              if (app.globalData.playerOther4.userID != "XXX" && app.globalData.playerOther4.userID != "") {
+                that.setData({
+                  playerOther4_name: app.globalData.playerOther4.englishName,
+                  playerNumber: 5,
+                  playerOther4_flag: true
+                });
+              }
+            }
+            //console.log("state is::" + app.globalData.gameState);
+
+          },
+        })
+        }
+      }, 5000)
+
     app.globalData.voteInterval = setInterval(function() {
       that.setData({
         player1: app.globalData.playerOther1.name,
@@ -1185,7 +1429,7 @@ Page({
           round2FlashEnd=true;
         }
       }
-      if (that.data.round2Flag == true) {
+      if (that.data.round2Flag == true && round3FlashEnd != true) {
         if (app.globalData.gameState == 5) {
           that.setData({
             roundNumber: 3,
@@ -1211,13 +1455,14 @@ Page({
               buttonColorFlag4: 1
             })
           }
+          round3FlashEnd = true;
         }
       }
-        console.log("winner role before --------------" + app.globalData.roundResult.winnerRole);
+        //console.log("winner role before --------------" + app.globalData.roundResult.winnerRole);
         that.setData({
           winnerRole: app.globalData.roundResult.winnerRole
         });
-      console.log("winner role After ++++++++++++" + that.data.winnerRole);
+      //console.log("winner role After ++++++++++++" + that.data.winnerRole);
       if (app.globalData.gameState == 0 || app.globalData.roundResult.finished == true) {
         that.setData({
         gameStatus:1,
@@ -1225,7 +1470,7 @@ Page({
         if(app.globalData.resetGlobalDataFlag==false){
           //clearInterval(app.globalData.interval);
           util.resetGlobalData();//重置所有涉及的全局变量
-          app.globalData.isIntervalStopped = true;//關閉計時器的標誌位
+          ///app.globalData.isIntervalStopped = true;//關閉計時器的標誌
           app.globalData.resetGlobalDataFlag=true;
           console.log("reset");
         }
@@ -1257,7 +1502,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    console.log("-=-=-=-=-=-=-=-=已成功啟動On Unload 函數-=-=-=-=-===-Vote界面");
+    clearInterval(app.globalData.interval2);
+    app.globalData.interval2 == 0;
   },
 
   /**

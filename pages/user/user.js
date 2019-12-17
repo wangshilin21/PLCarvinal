@@ -1,4 +1,4 @@
-const Xman = require('../../service/xman.js')
+
 var app = getApp();
 Page({
   data: {

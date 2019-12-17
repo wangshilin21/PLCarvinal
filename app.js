@@ -62,6 +62,10 @@ App({
 
     this.globalData.boardroomList = arr;
   },
+  onHide() {
+    console.log("APP Onhide function has executed");
+    // Do something when hide.
+  },
   globalData: {
     userInfo: [],
     roomInfo: [],
@@ -73,7 +77,9 @@ App({
     boardroomList: [],
     infoCardNumber:1111,//用户信息界面抽到的卡牌（免喝酒之类）,初始1111，不显示任何图片
     isIntervalStopped:false,
-    interval:'',//轮询服务器状态定时器
+    interval:404,//轮询服务器状态定时器
+    interval1:404,//轮询服务器状态定时器
+    interval2:404,//轮询服务器状态定时器
     voteInterval:'',//投票界面轮询状态
     gameState:0,//游戏当前状态
     playerMe:"",//当前用户的ID

@@ -68,7 +68,7 @@ justify-content: center;
   display:flex;
   justify-content: center;
  padding-top:5rpx;
- color:#09ec95;
+ color:#36ec09;
 }
 .informStartGame2_en1{
   display:flex;

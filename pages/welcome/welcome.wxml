@@ -8,7 +8,7 @@
 
   <view>
     <div class="input-name">
-      <input value="{{id_input}}" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input ID number here" />
+      <input value="{{id_input}}" type="number" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input ID number here" />
     </div>
   </view>
   <view>

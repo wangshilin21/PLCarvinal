@@ -76,7 +76,7 @@ Page({
       "name=" + e.currentTarget.dataset.name;
     //var roomName = e.currentTarget.dataset.name;
     var url = "../reserve/reserve?"+params;
-    wx.navigateTo({
+    wx.reLaunch({
       url: url
     })
   }

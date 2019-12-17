@@ -18,7 +18,7 @@ Page({
 
   },
   signinUserPage00: function (e) {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../team/team',
     })
   },
@@ -65,7 +65,7 @@ Page({
             /**wx.switchTab({
               url: "../user/user"
             })*/
-            wx.navigateTo({
+            wx.reLaunch({
               url: '../team/team',
             })
           }, 2000)
@@ -79,6 +79,14 @@ Page({
             content: 'You have already signed in',
           });
 
+        };
+        console.log("输入的工号是 " + that.data.id_input);
+        if(that.data.resResult == 4){
+          wx.showModal({
+            title: '请输入工号后再签到',
+            content: 'Please sign in after typing in your ID',
+          });
+          return;
         };
 
       },

@@ -3,13 +3,10 @@
     "pages/main/main",
     "pages/welcome/welcome",
     "pages/local/local",
-    "pages/reserve/reserve",
-    "pages/check/check",
     "pages/user/user",
     "pages/init/init",
     "pages/xmanGame/xmanGame",
-    "pages/vote/vote",
-    "pages/playerList/playerList"
+    "pages/vote/vote"
   ],
   "window": {
     "navigationBarBackgroundColor": "#2626C2",
