@@ -1345,7 +1345,7 @@ Page({
       if (app.globalData.playerMyself.killed == true && that.data.checkPlayerMeAlive == false) {
         wx.showModal({
           title: '本轮中您被投票出局',
-          content: 'This round you are killed',
+          content: 'This round you are voted out',
           showCancel: false,
         })
         that.data.checkPlayerMeAlive = true;
@@ -1357,7 +1357,7 @@ Page({
         });
         wx.showModal({
           title: '本轮投票中' + that.data.player1 + '被投票出局',
-          content: 'This round ' + that.data.player1_en + ' is killed',
+          content: 'This round ' + that.data.player1_en + ' is voted out',
           showCancel: false,
         })
         that.data.checkPlayer1Alive = true;
@@ -1369,7 +1369,7 @@ Page({
         })
         wx.showModal({
           title: '本轮投票中' + that.data.player2 + '被投票出局',
-          content: 'This round ' + that.data.player2_en + ' is killed',
+          content: 'This round ' + that.data.player2_en + ' is voted out',
           showCancel: false,
         })
         that.data.checkPlayer2Alive = true;
@@ -1381,7 +1381,7 @@ Page({
         });
         wx.showModal({
           title: '本轮投票中' + that.data.player3 + '被投票出局',
-          content: 'This round ' + that.data.player3_en + ' is killed',
+          content: 'This round ' + that.data.player3_en + ' is voted out',
           showCancel: false,
         })
         that.data.checkPlayer3Alive = true;
@@ -1393,7 +1393,7 @@ Page({
         });
         wx.showModal({
           title: '本轮投票中' + that.data.player4 + '被投票出局',
-          content: 'This round ' + that.data.player4_en + ' is killed',
+          content: 'This round ' + that.data.player4_en + ' is voted out',
           showCancel: false,
         })
         that.data.checkPlayer4Alive=true;

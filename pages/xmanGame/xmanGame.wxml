@@ -6,7 +6,7 @@
   <view class="name-title">Player ID:</view>
   <view>
     <div class="input-name">
-      <input type="number" value="{{name_inputValue}}" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input your ID number here" />
+      <input type="number" value="{{name_inputValue}}" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input your ID number" />
     </div>
   </view>
   <view>
@@ -20,16 +20,16 @@
 
 
   <view wx:if="{{playerNumber>=2&&playerOther1_flag==true}}">
-    <view class="player1EnterGame">{{playerOther1_name}} enter the game!</view>
+    <view class="player1EnterGame">{{playerOther1_name}} enters the game!</view>
   </view>
   <view wx:if="{{playerNumber>=3&&playerOther2_flag==true}}">
-    <view class="player2EnterGame">{{playerOther2_name}} enter the game!</view>
+    <view class="player2EnterGame">{{playerOther2_name}} enters the game!</view>
   </view>
   <view wx:if="{{playerNumber>=4&&playerOther3_flag==true}}">
-    <view class="player3EnterGame">{{playerOther3_name}} enter the game!</view>
+    <view class="player3EnterGame">{{playerOther3_name}} enters the game!</view>
   </view>
   <view wx:if="{{playerNumber>=5&&playerOther4_flag==true}}">
-    <view class="player4EnterGame">{{playerOther4_name}} enter the game!</view>
+    <view class="player4EnterGame">{{playerOther4_name}} enters the game!</view>
     <view wx:if="{{wordHasGotten==false}}">
      <view class="informStartGame">所有玩家已就位，请等待发词！</view>
      <view class="informStartGame_en1">All players are ready</view>
