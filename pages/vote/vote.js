@@ -16,11 +16,14 @@ Page({
     currentPlayer: 0,
     result: '游戏进行中',
     roundNumber: 1, //投票轮数
+    roundNumberShown:1,
     round1Flag:false,//判断第一轮是否已经投过票
     round2Flag:false,//判断第二轮是否已经投过票
     round3Flag:false,//判断第三轮是否已经投过票
     playerInfo: '',
+    playerInfoShown:'',
     roundFlag: 0, //标志位，区分只显示Round1，还是显示Round1： You voted xx
+    roundFlagShown:0,
     player1: '玩家姓名一', //玩家姓名来源于Server，与前端显示一致
     player2: '玩家姓名二',
     player3: '玩家姓名三',
@@ -58,6 +61,7 @@ Page({
     wordHasGotten: false,
     winnerRole:"",
     voteButtonLock: 0, //初始状态下，投票按钮无锁。0代表无锁，1代表上锁。作用：投票一次后，锁定投票按钮无法再投。进入下一轮后解锁。
+    voteButtonLockShown:0,
     nextRoundLock: 1 //初始状态下，进入下一轮按钮上锁。0代表无锁，1代表上锁。作用：只有投票后才允许进入下一轮。
   },
   generatorArray: function(num) {
@@ -217,9 +221,13 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag1: 1
-                  })
-                  console.log("2222");
+                    //buttonColorFlag1: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
+                  console.log("点击后缓存中Round Flag的值是" + wx.getStorageSync('roundFlag'));
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                //  console.log("2222");
                   that.onLoad();
                 }
               },
@@ -286,8 +294,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag1: 1
-                  })
+                   // buttonColorFlag1: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -357,8 +368,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag1: 1
-                  })
+                    //buttonColorFlag1: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -443,8 +457,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag2: 1
-                  })
+                    //buttonColorFlag2: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -513,8 +530,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag2: 1
-                  })
+                   // buttonColorFlag2: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -584,8 +604,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag2: 1
-                  })
+                   // buttonColorFlag2: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -669,8 +692,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag3: 1
-                  })
+                    //buttonColorFlag3: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -739,8 +765,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag3: 1
-                  })
+                   // buttonColorFlag3: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -810,8 +839,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag3: 1
-                  })
+                   // buttonColorFlag3: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -895,8 +927,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag4: 1
-                  })
+                    //buttonColorFlag4: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -964,8 +999,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag4: 1
-                  })
+                    //buttonColorFlag4: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -1035,8 +1073,11 @@ Page({
                     roundFlag: 1,
                     voteButtonLock: 1,
                     nextRoundLock: 0,
-                    buttonColorFlag4: 1
-                  })
+                   // buttonColorFlag4: 1
+                  });
+                  wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
+                  wx.setStorageSync('playerInfo', that.data.playerInfo);
+                  wx.setStorageSync('roundFlag', that.data.roundFlag);
                   //console.log(that.data.playerNumber);
                   that.onLoad();
                 }
@@ -1067,6 +1108,8 @@ Page({
 
    
   onShow: function(options) {
+    app.globalData.userPage = "vote";
+    wx.setStorageSync('userPage', app.globalData.userPage);
     var that = this;
     var round2FlashEnd = false;
     var round3FlashEnd = false;
@@ -1079,6 +1122,11 @@ Page({
       app.globalData.interval2 = setInterval(function () {
         if (app.globalData.interval2 == 0){return};
         console.log("已進入計時器---VOTE");
+        if (wx.getStorageSync('gameState')) {
+          let gameStateStorage = wx.getStorageSync('gameState');
+          app.globalData.gameState = gameStateStorage;
+        }
+        //console.log("vote Game State is "+ app.globalData.gameState);
         if (app.globalData.gameState != 0) {
         wx.request({
           url: 'https://pleeprogram.com/GameSys/molegamewechat',
@@ -1091,7 +1139,13 @@ Page({
           },
           success: function (res) {
             //state
+            if (wx.getStorageSync('playerMe')) {
+              let playerMeText = wx.getStorageSync('playerMe');
+              app.globalData.playerMe = playerMeText;
+            }
+           // console.log("Player me  is " + app.globalData.playerMe);
             app.globalData.gameState = res.data.state;
+            wx.setStorageSync('gameState', app.globalData.gameState);
             if (app.globalData.gameState == 0) {
               util.resetGlobalData(); //重置所有涉及的全局变量
               if (that.data.navigateToMain == false) {
@@ -1104,16 +1158,6 @@ Page({
                 //console.log("When GlobalData.gameState is 0,res.data.state is =====" + res.data.state);
                 logLock1 == true;
               }
-            }
-            if (app.globalData.gameState != 0) {
-              if (logLock2 == false) {
-                // console.log("+++Game State is+++   " + app.globalData.gameState);
-                logLock2 == true;
-              }
-            }
-            if (logLock3 == false) {
-              //console.log("在gameState判斷之前！！！！！！！！");
-              logLock3 == true;
             }
             if (app.globalData.gameState != 0) {
               if (res.data.playerList.length >= 1) {
@@ -1194,10 +1238,7 @@ Page({
               //console.log("global_player3_name:" + app.globalData.player3.name);
               //console.log("global_player4_name:" + app.globalData.player4.name);
               //console.log("global_player5_name:" + app.globalData.player5.name);
-              if (logLock3 == false) {
-                // console.log("在gameState判斷之后-------------------");
-                logLock3 == true;
-              }
+
               if (app.globalData.player1.userID == app.globalData.playerMe) {
                 app.globalData.playerOther1 = app.globalData.player2;
                 app.globalData.playerOther2 = app.globalData.player3;
@@ -1293,7 +1334,13 @@ Page({
         }
       }, 5000)
 
+ 
     app.globalData.voteInterval = setInterval(function() {
+      let playerInfoStorage='';
+      if (wx.getStorageSync('playerInfo')) {
+       playerInfoStorage = wx.getStorageSync('playerInfo');
+        that.data.playerInfoShown = playerInfoStorage;
+      }
       that.setData({
         player1: app.globalData.playerOther1.name,
         player2: app.globalData.playerOther2.name,
@@ -1308,7 +1355,11 @@ Page({
         player3_en: app.globalData.playerOther3.englishName,
         player4_en: app.globalData.playerOther4.englishName,
         wordShown: app.globalData.cardMe,
-        wordShown_en: app.globalData.cardMe_en
+        wordShown_en: app.globalData.cardMe_en,
+        //roundNumberShown:roundNumberStorage,
+        //roundFlagShown:roundFlagStorage,
+        playerInfoShown:playerInfoStorage,
+       // voteButtonLockShown:voteButtonLockStorage,
       });
       if (that.data.gameStateTemp != app.globalData.gameState) {//遊戲狀態改變時觸發條件
         if (app.globalData.gameState == 3 || app.globalData.gameState == 4 || app.globalData.gameState == 5) {
@@ -1317,6 +1368,7 @@ Page({
           that.setData({
             voteButtonLock: 0//解锁按钮
           });
+          wx.setStorageSync('voteButtonLock', that.data.voteButtonLock);
         }
         if (app.globalData.playerOther1.killed == false) {
           that.setData({
@@ -1403,9 +1455,14 @@ Page({
         if (app.globalData.gameState == 4) {
           that.setData({
             roundNumber: 2,
+            //roundNumberShown:2,
+           // roundFlagShown:0,
             roundFlag: 0,
           });
-
+          wx.setStorageSync('roundFlag', that.data.roundFlag);
+          console.log("+++++++++++++++++++Round Flag CHANGED");
+          wx.setStorageSync('roundNumber', that.data.roundNumber);
+          console.log("roundNumber in Storage is changed");
           if (that.data.player1Alive == false) {
             that.setData({
               buttonColorFlag1: 1
@@ -1434,7 +1491,12 @@ Page({
           that.setData({
             roundNumber: 3,
             roundFlag: 0,
+           //roundNumberShown: 2,
+           // roundFlagShown: 0,
           });
+          wx.setStorageSync('roundFlag', that.data.roundFlag);
+          wx.setStorageSync('roundNumber', that.data.roundNumber);
+          console.log("roundNumber in Storage is changed");
           if (that.data.player1Alive == false) {
             that.setData({
               buttonColorFlag1: 1
@@ -1463,7 +1525,7 @@ Page({
           winnerRole: app.globalData.roundResult.winnerRole
         });
       //console.log("winner role After ++++++++++++" + that.data.winnerRole);
-      if (app.globalData.gameState == 0 || app.globalData.roundResult.finished == true) {
+      if (app.globalData.roundResult.finished == true) {
         that.setData({
         gameStatus:1,
         });

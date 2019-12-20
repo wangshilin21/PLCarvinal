@@ -85,6 +85,7 @@ App({
     playerMe:"",//当前用户的ID
     playerMe_team:404,//初始值为无意义的值
     resetGlobalDataFlag:false,
+    userPage:"none",
     cardMe:"",//当前用户抽到的词条
     cardMe_en:"",
     playerMyself: {

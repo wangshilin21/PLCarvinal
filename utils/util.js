@@ -62,6 +62,7 @@ var resetGlobalData=function() {
   app.globalData.playerMyself.objSelected = "";
   app.globalData.playerMyself.englishObjSelected = "";
   app.globalData.playerMyself.killed = "";
+  app.globalData.userPage="none";
   app.globalData.player1.userID = "XXX";
   app.globalData.player1.name = "no name";
   app.globalData.player1.englishName = "no English name";

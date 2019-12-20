@@ -118,6 +118,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (options) {
+    app.globalData.userPage = "init";
+    wx.setStorageSync('userPage', app.globalData.userPage);
     console.log("-=-=-=-=-=-=-=-=已成功啟動On Show 函數-=-=-=-=-===-INIT界面");
     var that = this;
     var logLock1 = false; ///避免輪詢下多次打Log
@@ -128,6 +130,10 @@ Page({
     app.globalData.interval1 = setInterval(function () {
       if(app.globalData.interval1==0){return};
       console.log("已進入計時器---INIT");
+      if (wx.getStorageSync('gameState')) {
+        let gameStateStorage = wx.getStorageSync('gameState');
+        app.globalData.gameState = gameStateStorage;
+      }
       if (app.globalData.gameState!=0) {
         wx.request({
           url: 'https://pleeprogram.com/GameSys/molegamewechat',
@@ -141,6 +147,7 @@ Page({
           success: function (res) {
             //state
             app.globalData.gameState = res.data.state;
+            wx.setStorageSync('gameState', app.globalData.gameState);
             if (app.globalData.gameState == 0) {
               util.resetGlobalData(); //重置所有涉及的全局变量
               if (that.data.navigateToMain == false) {
@@ -153,16 +160,6 @@ Page({
                 //console.log("When GlobalData.gameState is 0,res.data.state is =====" + res.data.state);
                 logLock1 == true;
               }
-            }
-            if (app.globalData.gameState != 0) {
-              if (logLock2 == false) {
-               // console.log("+++Game State is+++   " + app.globalData.gameState);
-                logLock2 == true;
-              }
-            }
-            if (logLock3 == false) {
-              //console.log("在gameState判斷之前！！！！！！！！");
-              logLock3 == true;
             }
             if (app.globalData.gameState != 0) {
               if (res.data.playerList.length >= 1) {

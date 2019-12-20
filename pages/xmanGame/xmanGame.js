@@ -92,6 +92,7 @@ Page({
         //console.log("ID Number: " + res.data.userID);
         app.globalData.playerMe = res.data.userID;
         app.globalData.gameState = res.data.state;
+        wx.setStorageSync('gameState', app.globalData.gameState);
         //console.log("Game STATE is : " + app.globalData.gameState);
         //console.log("name PlayerMe: " + res.data.name);
         that.data.resResult = res.data.result;
@@ -158,6 +159,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function(options) {
+    app.globalData.userPage="xmanGame";
+    wx.setStorageSync('userPage', app.globalData.userPage);
     console.log("-=-=-=-=-=-=-=-=已成功啟動On Show 函數-=-=-=-=-===-XmanGame界面");
     var that = this;
     var logLock1 = false; ///避免輪詢下多次打Log
@@ -181,6 +184,10 @@ Page({
     app.globalData.interval = setInterval(function() {
       if(app.globalData.interval==0){return};
       console.log("已進入計時器---XMAN");
+      if (wx.getStorageSync('gameState')) {
+        let gameStateStorage = wx.getStorageSync('gameState');
+        app.globalData.gameState = gameStateStorage;
+      }
       // if (app.globalData.isIntervalStopped == false) {
       if(app.globalData.gameState!=0){
       if (that.data.joinState == 1) {
@@ -196,23 +203,7 @@ Page({
           success: function(res) {
             //state
             app.globalData.gameState = res.data.state;
-            console.log("RES STATE is "+res.data.state);
-            console.log("STATE IS ++" + app.globalData.gameState);
-            if (app.globalData.gameState == 0) {
-              console.log("++");
-              util.resetGlobalData(); //重置所有涉及的全局变量
-              if (that.data.navigateToMain == false) {
-                wx.switchTab({
-                  url: '../main/main'
-                })
-                console.log("跳轉到MAIN");
-                that.data.navigateToMain = true;
-              }
-              if (logLock1 == false) {
-                //console.log("When GlobalData.gameState is 0,res.data.state is =====" + res.data.state);
-                logLock1 == true;
-              }
-            }
+            wx.setStorageSync('gameState', app.globalData.gameState);
             if (app.globalData.gameState != 0) {
               if (logLock2 == false) {
                // console.log("+++Game State is+++   " + app.globalData.gameState);
@@ -305,6 +296,10 @@ Page({
               if (logLock3 == false) {
                 //console.log("在gameState判斷之后-------------------");
                 logLock3 == true;
+              }
+              if (wx.getStorageSync('playerMe')){
+                let playerMeText = wx.getStorageSync('playerMe');
+                app.globalData.playerMe = playerMeText;
               }
               if (app.globalData.player1.userID == app.globalData.playerMe) {
                 app.globalData.playerOther1 = app.globalData.player2;
