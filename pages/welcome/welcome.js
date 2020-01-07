@@ -24,6 +24,13 @@ Page({
   },
   signinUserPage: function (e) {
     var that = this;
+    wx.showToast({
+      title: 'Signing Up...',
+      icon: 'loading',
+      mask: true,
+      duration: 10000
+    })
+ 
     wx.request({
       url: 'https://pleeprogram.com/GameSys/molegamewechat',
       //url: 'http://10.220.16.125:8080/MeetingRoomSys/meetingroom',  
@@ -38,6 +45,7 @@ Page({
       },
 
       success: function (res) {
+        wx.hideToast();
         console.log("result: " + res.data.result);
         console.log("ID Number: " + res.data.userID);
         app.globalData.playerMe_team = res.data.teamFlag; 
@@ -49,7 +57,8 @@ Page({
           playerName_en:res.data.englishName
         });
         if (that.data.resResult == 0) {
-          console.log("签到成功！")
+          console.log("签到成功！");
+          wx.setStorageSync('playerMe', res.data.userID);
           console.log("分组信息为"+app.globalData.playerMe_team);
           wx.showToast({
             title: 'Welcome',

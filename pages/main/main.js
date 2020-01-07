@@ -6,11 +6,7 @@ Page({
   local() {
     if (wx.getStorageSync('userPage')) {
       var userPageStorage = wx.getStorageSync('userPage');
-      if (userPageStorage == "xmanGame") {
-        wx.redirectTo({
-          url: '../xmanGame/xmanGame'
-        });
-      }
+      console.log("userPage in storage is "+ userPageStorage);
       if (userPageStorage == "init") {
         wx.redirectTo({
           url: '../init/init'
@@ -27,7 +23,7 @@ Page({
         });
       }
     }else {
-      wx.navigateTo({
+      wx.redirectTo({//navigate
         url: "../xmanGame/xmanGame"
       })
     }
@@ -39,7 +35,11 @@ Page({
       url: "../welcome/welcome"
     })
   },
-  schedule() {},
+  schedule() {
+    wx.navigateTo({
+      url: "../guess/guess"
+    })
+  },
 
 
   /**

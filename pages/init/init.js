@@ -1,5 +1,6 @@
 // pages/init/init.js
 var app = getApp();
+var util = require('../../utils/util.js');
 Page({
 
   /**
@@ -148,14 +149,18 @@ Page({
             //state
             app.globalData.gameState = res.data.state;
             wx.setStorageSync('gameState', app.globalData.gameState);
+            console.log("接到0指令之前 state值"+app.globalData.gameState);
             if (app.globalData.gameState == 0) {
+              //console.log("++++");
               util.resetGlobalData(); //重置所有涉及的全局变量
-              if (that.data.navigateToMain == false) {
+             // if (that.data.navigateToMain == false) {
+                console.log("Back to main");
                 wx.switchTab({
                   url: '../main/main'
                 })
-                that.data.navigateToMain = true;
-              }
+                console.log("Back to main!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //that.data.navigateToMain = true;
+              //}
               if (logLock1 == false) {
                 //console.log("When GlobalData.gameState is 0,res.data.state is =====" + res.data.state);
                 logLock1 == true;
@@ -358,6 +363,7 @@ Page({
   onUnload: function () {
     console.log("-=-=-=-=-=-=-=-=已成功啟動On Unload 函數-=-=-=-=-===-Init界面");
     clearInterval(app.globalData.interval1);
+    console.log("clear Interval");
     app.globalData.interval1==0;
   },
 

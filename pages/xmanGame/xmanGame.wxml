@@ -6,7 +6,7 @@
   <view class="name-title">Player ID:</view>
   <view>
     <div class="input-name">
-      <input type="number" value="{{name_inputValue}}" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input your ID number" />
+      <input type="number" value="{{name_inputValue}}" class="inputColumn" maxlength="50" bindinput="bindKeyInput" placeholder="Input your ID number" />
     </div>
   </view>
   <view>
@@ -17,8 +17,6 @@
 </view>
 
 <view wx:if="{{joinState==1}}">
-
-
   <view wx:if="{{playerNumber>=2&&playerOther1_flag==true}}">
     <view class="player1EnterGame">{{playerOther1_name}} enters the game!</view>
   </view>

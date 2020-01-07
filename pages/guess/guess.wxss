@@ -1,0 +1,151 @@
+/* pages/welcome/welcome.wxss */
+
+.app-info {
+  width: 100%;
+  text-align: center;
+  padding-top: 50px;
+  display: block;
+}
+.xman-image-size {
+display:flex;
+justify-content: center;
+padding-top: 30px;
+}
+.xman-image-in {
+width:500rpx;
+height:500rpx;
+}
+.playerInfo{
+ width:100%;
+ display:flex;
+ padding-top:20rpx;
+ justify-content: center;
+}
+.player1EnterGame{
+display:flex;
+justify-content: center;
+ padding-top:20rpx;
+ color:#2947f1;
+}
+.player2EnterGame{
+   display:flex;
+    justify-content: center;
+ padding-top:2rpx;
+ color:#2947f1;
+}
+.player3EnterGame{
+   display:flex;
+ justify-content: center;
+ padding-top:2rpx;
+ color:#2947f1;
+}
+.player4EnterGame{
+   display:flex;
+    justify-content: center;
+ padding-top:2rpx;
+ color:#2947f1;
+}
+.informStartGame{
+  display:flex;
+  justify-content: center;
+ padding-top:5rpx;
+ color:#f10b0b;
+}
+.informStartGame_en1{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#f10b0b;
+}
+.informStartGame_en2{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#f10b0b;
+}
+
+.informStartGame2{
+  display:flex;
+  justify-content: center;
+ padding-top:5rpx;
+ color:#36ec09;
+}
+.informStartGame2_en1{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#36ec09;
+}
+.informStartGame2_en2{
+  display:flex;
+  justify-content: center;
+ padding-top:2rpx;
+ color:#36ec09;
+}
+.opt-wrap {
+  display: block;
+  padding-top: 100rpx;
+}
+.opt-wrap button {
+  width: 300rpx;
+  height: 80rpx;
+  font-size: 36rpx;
+  line-height: 80rpx;
+  border-radius: 80rpx;
+  /*color: #fff;*/
+  color: white;
+  background: #2947f1;
+  border: solid 1rpx #2947f1;
+}
+
+.customer-server-mail {
+  position: absolute; 
+  display: block;
+  bottom: 100rpx;
+  width: 100%;
+  margin: 0 auto;
+  color: #888;
+}
+
+.customer-server-mail a {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20rpx;
+}
+.inputColumn{
+  width:500rpx;
+  height:100rpx;
+    border-radius: 80rpx;
+  border: solid 8rpx #bdbcbc;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+.input-name{
+  display:flex;
+  justify-content: center;
+  text-align: center;
+  color:#1e5adb;
+  padding-top: 18px;
+}
+.name-title{
+   display:flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+.opt-enterGame{
+  display: block;
+  padding-top: 50rpx;
+}
+.opt-enterGame button {
+  width: 300rpx;
+  height: 80rpx;
+  font-size: 36rpx;
+  line-height: 80rpx;
+  border-radius: 80rpx;
+  /*color: #fff;*/
+  color: white;
+  background: #1e5adb;
+  border: solid 1rpx #2947f1;
+}

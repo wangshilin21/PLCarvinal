@@ -6,7 +6,7 @@
     <view class="btn" style="opacity:{{0.8}}">
       <button bindtap="signin">
         <image src="../../images/sign.png"></image>
-        <view class= "picInfo">签到 Sign In</view>
+        <view class= "picInfo">分组 Grouping</view>
       </button>
     </view>
     <view class="btn" style="opacity:{{0.8}}">
@@ -18,7 +18,7 @@
     <view class="btn" style="opacity:{{0.8}}">
       <button bindtap="schedule">
         <image src="../../images/schedule.png"></image>
-        <view class= "picInfo">你画我猜 Guess Me</view>
+        <view class= "picInfo">你划我猜 Guess My Pose</view>
       </button>
     </view>
     <view class="bottomText">powered by PL-EE

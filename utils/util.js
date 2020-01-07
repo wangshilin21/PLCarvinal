@@ -111,6 +111,26 @@ var resetGlobalData=function() {
   app.globalData.roundResult.userIDKilled="";
   app.globalData.roundResult.roleKilled="";
   app.globalData.roundResult.finished=false;
+  wx.removeStorageSync('userPage');
+  wx.removeStorageSync('gameState');
+  wx.removeStorageSync('roundNumber');
+  wx.removeStorageSync('gameStateTemp');
+  wx.removeStorageSync('round1Flag');
+  wx.removeStorageSync('round2Flag');
+  wx.removeStorageSync('roundFlag');
+  wx.removeStorageSync('voteButtonLock');
+  wx.removeStorageSync('playerInfo');
+  wx.removeStorageSync('player1_en');
+  wx.removeStorageSync('player2_en');
+  wx.removeStorageSync('player3_en');
+  wx.removeStorageSync('player4_en');
+  wx.removeStorageSync('wordShown');
+  wx.removeStorageSync('wordShown_en');
+  wx.removeStorageSync('playerMe');//这个需要清除缓存吗？
+  wx.removeStorageSync('gameState');
+  wx.removeStorageSync('joinState');
+  wx.removeStorageSync('wordHasGotten');
+  //wx.clearStorageSync();
   //app.globalData.roundResult.winnerRole="none";
   console.log("Reset successful");
   return ;

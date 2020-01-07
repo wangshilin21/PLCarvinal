@@ -21,6 +21,25 @@ height:500rpx;
  padding-top:20rpx;
  justify-content: center;
 }
+.joinInfo{
+  display:flex;
+  padding-top: 10rpx;
+  width:500rpx;
+  height:420rpx;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: solid 8rpx #bdbcbc;
+}
+.inputColumn{
+  width:500rpx;
+  height:100rpx;
+    border-radius: 80rpx;
+  border: solid 8rpx #bdbcbc;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
 .player1EnterGame{
 display:flex;
 justify-content: center;
@@ -93,8 +112,8 @@ justify-content: center;
   line-height: 80rpx;
   border-radius: 80rpx;
   /*color: #fff;*/
-  color: #1e5adb;
-  background: #fff;
+  color: white;
+  background: #2947f1;
   border: solid 1rpx #2947f1;
 }
 
@@ -115,8 +134,12 @@ justify-content: center;
 }
 .input-name{
   display:flex;
+  width:100%;
   justify-content: center;
+  align-items: center;
+  text-align: center;
   padding-top: 18px;
+  color:#2947f1;
 }
 .name-title{
    display:flex;

@@ -65,6 +65,15 @@ App({
   onHide() {
     console.log("APP Onhide function has executed");
     // Do something when hide.
+    /*
+    clearInterval(this.globalData.interval2);
+    this.globalData.interval2 == 0;
+    clearInterval(this.globalData.voteInterval);
+    this.globalData.voteInterval == 0;
+    clearInterval(this.globalData.interval1);
+    this.globalData.interval1 == 0;
+    clearInterval(this.globalData.interval);
+    this.globalData.interval == 0;*/
   },
   globalData: {
     userInfo: [],

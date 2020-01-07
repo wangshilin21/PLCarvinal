@@ -1,0 +1,15 @@
+<!--pages/welcome/welcome.wxml-->
+<view class="xman-image-size">
+  <image src="../../images/guess.png" class='xman-image-in'></image>
+</view>
+  <view class="name-title">Please enter the word:</view>
+  <view>
+    <div class="input-name">
+      <input  value="{{word_inputValue}}" class="inputColumn" maxlength="100" bindinput="bindKeyInput" placeholder="Input the word" />
+    </div>
+  </view>
+  <view>
+    <div class="opt-wrap">
+      <button bindtap="sendWord">发送Send</button>
+    </div>
+  </view>

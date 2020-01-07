@@ -16,6 +16,15 @@
 	margin-bottom: 10rpx;
   align-items: center;
 }
+.inputColumn{
+  width:500rpx;
+  height:100rpx;
+    border-radius: 80rpx;
+  border: solid 8rpx #bdbcbc;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
 .btn image {
 	width: 150rpx;
 	height: 150rpx;
@@ -52,13 +61,13 @@
    display:flex;
   justify-content: center;
   padding-top: 5px;
-  color:blueviolet;
+  color:#2947f1;
 }
 .join_info_en{
    display:flex;
   justify-content: center;
   padding-top: 3px;
-    color:blueviolet;
+    color:#2947f1;
 }
 .opt-wrap {
   display: block;
@@ -71,8 +80,8 @@
   line-height: 80rpx;
   border-radius: 80rpx;
   /*color: #fff;*/
-  color: #1e5adb;
-  background: #fff;
+  color: white;
+  background: #2947f1;
   border: solid 1rpx #2947f1;
 }
 .bottomText{

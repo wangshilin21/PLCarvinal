@@ -2,18 +2,18 @@
 
   <view class="page-wrap">
     <image class="welcomePic" src="../../images/welcomePic.png"></image>
-        <view class="join_info">请输入工号签到：</view>
-  <view class="join_info_en">Please sign in by your ID：</view>
+        <view class="join_info">请输入工号进行分组：</view>
+  <view class="join_info_en">Please group by your ID：</view>
   </view>
 
   <view>
     <div class="input-name">
-      <input value="{{id_input}}" type="number" class="" maxlength="50" bindinput="bindKeyInput" placeholder="Input ID number here" />
+      <input value="{{id_input}}" type="number" class="inputColumn" maxlength="50" bindinput="bindKeyInput" placeholder="Input ID number here" />
     </div>
   </view>
   <view>
     <div class="opt-wrap">
-      <button bindtap="signinUserPage">签到Sign in</button>
+      <button bindtap="signinUserPage">分组Grouping</button>
     </div>
   </view>
 </view>
