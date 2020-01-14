@@ -1,64 +1,92 @@
 <view class='getCard' bindtap='rotateFn'>
-  <!--正面的框  -->
-  <view class='frame {{class1}}'>
-    <image mode='widthFix' style='width:85%' src='/images/card.png'></image>
-  </view>
-  <!--背面的框 -->
-  <view wx:if="{{wordChoose=='发动机'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word1.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='变速箱'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word2.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='手机'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word3.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='座机'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word4.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='公交'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word5.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='地铁'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word6.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='导航'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word7.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='地图'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word8.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='刹车'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word9.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='油门'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word10.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='咖啡'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word11.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='茶'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word12.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='啤酒'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word13.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='红酒'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word14.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='燃油车'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word15.png'></image>
-  </view>
-  <view wx:if="{{wordChoose=='电动车'}}" class='frame {{class2}}'>
-    <image mode='widthFix' style='width:85%' src='/images/word16.png'></image>
-  </view>
+	<!--正面的框  -->
+	<view class='frame {{class1}}'>
+		<image mode='widthFix' style='width:85%' src='/images/card.png'></image>
+	</view>
+	<!--背面的框 -->
+	<view wx:if="{{wordChoose=='双胞胎'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word1.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='龙凤胎'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word2.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='肯德基'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word3.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='麦当劳'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word4.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='公交'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word5.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='地铁'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word6.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='导航'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word7.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='地图'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word8.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='钢铁侠'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word9.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='蝙蝠侠'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word10.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='咖啡'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word11.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='茶'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word12.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='啤酒'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word13.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='红酒'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word14.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='燃油车'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word15.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='电动车'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word16.png'></image>
+	</view>
+
+	<view wx:if="{{wordChoose=='拳击'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word17.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='功夫'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word18.png'></image>
+	</view>
+
+	<view wx:if="{{wordChoose=='百事可乐'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word19.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='可口可乐'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word20.png'></image>
+	</view>
+
+	<view wx:if="{{wordChoose=='李小龙'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word21.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='成龙'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word22.png'></image>
+	</view>
+
+	<view wx:if="{{wordChoose=='图书馆'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word23.png'></image>
+	</view>
+	<view wx:if="{{wordChoose=='书店'}}" class='frame {{class2}}'>
+		<image mode='widthFix' style='width:85%' src='/images/word24.png'></image>
+	</view>
 </view>
 
 
 <view class="getCard_info">
-  <image mode='widthFix' style='width:85%' src='/images/info.png'></image>
+	<image mode='widthFix' style='width:85%' src='/images/info.png'></image>
 </view>
 
 <view class="vote">
-  <button bindtap="voteXman">投票Vote</button>
+	<button bindtap="voteXman">投票Vote</button>
 </view>

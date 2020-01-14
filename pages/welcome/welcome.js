@@ -48,7 +48,7 @@ Page({
         wx.hideToast();
         console.log("result: " + res.data.result);
         console.log("ID Number: " + res.data.userID);
-        app.globalData.playerMe_team = res.data.teamFlag; 
+
         that.data.resResult = res.data.result;
         that.data.playerName = res.data.name;
         that.data.playerName_en = res.data.englishName;
@@ -56,8 +56,10 @@ Page({
           resResult: res.data.result,
           playerName_en:res.data.englishName
         });
+        console.log("APP GLOBALDATA TEAM IS "+app.globalData.playerMe_team);
         if (that.data.resResult == 0) {
-          console.log("签到成功！");
+          app.globalData.playerMe_team = res.data.teamFlag; 
+          console.log("分组成功！");
           wx.setStorageSync('playerMe', res.data.userID);
           console.log("分组信息为"+app.globalData.playerMe_team);
           wx.showToast({
@@ -81,20 +83,33 @@ Page({
  
         };
         if (that.data.resResult == 2) {
-          console.log("重复签到！")
+          app.globalData.playerMe_team = res.data.teamFlag; 
+          console.log("重复分组！")
           console.log("分组信息为" + app.globalData.playerMe_team);
           wx.showModal({
-            title: '您已签到，无需重复签到',
-            content: 'You have already signed in',
+            title: '您已分组，请前往个人中心查看',
+            content: 'Already grouped.Go to Personal to check',
+            showCancel: true,
+            success: function (res) {
+              if (res.cancel) {
+                //点击取消,默认隐藏弹框
+              } else {
+                //点击确定
+                wx.switchTab({
+                  url: "../user/user"
+                })
+              }
+            },
           });
-
         };
         console.log("输入的工号是 " + that.data.id_input);
+        /////跳转到userPage？
         if(that.data.resResult == 4){
           wx.showModal({
-            title: '请输入工号后再签到',
-            content: 'Please sign in after typing in your ID',
+            title: '请输入工号后再分组',
+            content: 'Please group after typing in your ID',
           });
+          console.log("Res data ")
           return;
         };
 

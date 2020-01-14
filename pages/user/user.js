@@ -24,7 +24,7 @@ Page({
     class1: 'z1', //默认正面在上面
     class2: 'z2',
     wordChoose: '',
-    team:111//初始值为无意义的值
+    team:404//初始值为无意义的值
   },
   backToMain: function (e) {
     console.log("note1");
@@ -61,11 +61,11 @@ Page({
   onShow() {
     var that=this;
     var funcCard=0;
-
+  console.log("app.globalData.playerMe_team is "+ app.globalData.playerMe_team);
     that.setData({
       team: app.globalData.playerMe_team
     });
-    if(that.data.team!=404){
+    if(app.globalData.playerMe_team!=404){
       wx.setStorageSync('teamNumber', that.data.team);
     }
     if (wx.getStorageSync('teamNumber')) {

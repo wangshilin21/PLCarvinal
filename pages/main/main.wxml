@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="page">
-  <image class='background-image' src='../../images/background1.png' mode="aspectFill"></image>
+  <image class='background-image' src='../../images/background2.png' mode="aspectFill"></image>
   <view class="page-wrap">
     <image class="logo" src="../../images/logo.png"></image>
     <view class="btn" style="opacity:{{0.8}}">
@@ -18,7 +18,7 @@
     <view class="btn" style="opacity:{{0.8}}">
       <button bindtap="schedule">
         <image src="../../images/schedule.png"></image>
-        <view class= "picInfo">你划我猜 Guess My Pose</view>
+        <view class= "picInfo">你划我猜 You  Act, I Guess</view>
       </button>
     </view>
     <view class="bottomText">powered by PL-EE

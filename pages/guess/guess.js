@@ -59,7 +59,10 @@ Page({
             title: '投词成功',
             showCancel: false,
             content: 'Pushing word succeeds',
-          })
+          });
+          that.setData({
+            word_inputValue:""
+          });
           return;
         };
         if (that.data.resResult == 1) {
